@@ -1,0 +1,24 @@
+[
+    { "code": "AR", "name": "Argentina", "dial_code": "+54" },
+    { "code": "BO", "name": "Bolivia", "dial_code": "+591" },
+    { "code": "BR", "name": "Brasil", "dial_code": "+55" },
+    { "code": "CL", "name": "Chile", "dial_code": "+56" },
+    { "code": "CO", "name": "Colombia", "dial_code": "+57" },
+    { "code": "CR", "name": "Costa Rica", "dial_code": "+506" },
+    { "code": "CU", "name": "Cuba", "dial_code": "+53" },
+    { "code": "DO", "name": "República Dominicana", "dial_code": "+1" },
+    { "code": "EC", "name": "Ecuador", "dial_code": "+593" },
+    { "code": "SV", "name": "El Salvador", "dial_code": "+503" },
+    { "code": "GT", "name": "Guatemala", "dial_code": "+502" },
+    { "code": "HN", "name": "Honduras", "dial_code": "+504" },
+    { "code": "MX", "name": "México", "dial_code": "+52" },
+    { "code": "NI", "name": "Nicaragua", "dial_code": "+505" },
+    { "code": "PA", "name": "Panamá", "dial_code": "+507" },
+    { "code": "PY", "name": "Paraguay", "dial_code": "+595" },
+    { "code": "PE", "name": "Perú", "dial_code": "+51" },
+    { "code": "PR", "name": "Puerto Rico", "dial_code": "+1" },
+    { "code": "UY", "name": "Uruguay", "dial_code": "+598" },
+    { "code": "VE", "name": "Venezuela", "dial_code": "+58" },
+    { "code": "US", "name": "Estados Unidos", "dial_code": "+1" }
+  ]
+  
