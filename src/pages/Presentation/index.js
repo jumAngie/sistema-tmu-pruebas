@@ -45,7 +45,6 @@ function Presentation() {
   useEffect(() => {
     getTopSolicitudes()
       .then((data) => {
-        console.log("Datos recibidos en el frontend:", data);
         setSolicitudes(data);
       })
       .catch((error) => console.error("Error al obtener solicitudes:", error));
