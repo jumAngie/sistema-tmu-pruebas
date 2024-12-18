@@ -37,8 +37,8 @@ function CenteredFooter({ company, socials, light }) {
         <Grid item xs={10} lg={8}>
           <MKTypography variant="body1" color={light ? "white" : "secondary"}>
             Aviso: Este sitio un punto de encuentro virtual entre compradores y vendedores. Sin
-            embargo, no nos hacemos responsables por por las transacciones que aquí se realicen. Por
-            favor verifique cuidadosamente antes de realizar cualquier pago.
+            embargo, no nos hacemos responsables por las transacciones que se realicen. Por favor
+            verifique cuidadosamente antes de realizar cualquier pago.
           </MKTypography>
         </Grid>
         <Grid item xs={12} lg={8}>
