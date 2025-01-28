@@ -192,11 +192,11 @@ function CreateRequestForm() {
 
           console.log(submissionData);
 
-          //const result = await insertarSolicitud(submissionData);
+          const result = await insertarSolicitud(submissionData);
           
-          //const generatedTrackingCode = result;
-         // setTrackingCode(generatedTrackingCode);
-          //setIsSubmitted(true);
+          const generatedTrackingCode = result;
+          setTrackingCode(generatedTrackingCode);
+          setIsSubmitted(true);
 
         } catch (error) {
           toast.error("Hubo un error al procesar el formulario.");
