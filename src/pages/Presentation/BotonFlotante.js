@@ -6,7 +6,7 @@ import { styled } from "@mui/system";
 
 const FloatingButton = styled(Fab)({
   position: "fixed",
-  bottom: "30px",
+  bottom: "90px",
   right: "20px",
   backgroundColor: "#007A32",
   color: "#fff",
@@ -26,10 +26,10 @@ function PublicarMaquinaButton() {
   };
 
   return (
-    <Tooltip title="Publica tu máquina aquí">
+    <Tooltip title="Ingresa el código y revisa el estado de tu solicitud.">
       <FloatingButton onClick={handleClick} variant="extended">
         <ControlPoint sx={{ mr: 1, fontSize: "1.7rem" }} />
-        Publica tu máquina aquí
+        Registra tu Solicitud
       </FloatingButton>
     </Tooltip>
   );
