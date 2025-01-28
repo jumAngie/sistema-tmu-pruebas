@@ -14,6 +14,8 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import { getCategorias } from "apiServices";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CreateRequestForm() {
   const navigate = useNavigate();
@@ -22,10 +24,14 @@ function CreateRequestForm() {
   useEffect(() => {
     getCategorias()
       .then((data) => {
-        console.log("Datos recibidos en el frontend:", data);
         setCategories(data);
       })
-      .catch((error) => console.error("Error al obtener categorías:", error));
+      .catch((error) =>
+        console.error(
+          "Error al obtener categorías:",
+          error
+        )
+      );
   }, []);
 
   const [termsAccepted, setTermsAccepted] = useState(false); // Estado para el checkbox
@@ -38,7 +44,7 @@ function CreateRequestForm() {
     operationHours: "",
     description: "",
     images: [],
-    receiptUrl: "",
+    receipt: null,
     price: "",
     phoneNumber: "",
     additionalPhoneNumber: "",
@@ -78,9 +84,11 @@ function CreateRequestForm() {
   const handleImageUpload = (e, index) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
       const newImages = [...formValues.images];
-      newImages[index] = { file, url: imageUrl };
+      newImages[index] = {
+        file,
+        url: URL.createObjectURL(file),
+      };
       setFormValues({ ...formValues, images: newImages });
     }
   };
@@ -88,8 +96,10 @@ function CreateRequestForm() {
   const handleReceiptUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const receiptUrl = URL.createObjectURL(file);
-      setFormValues({ ...formValues, receipt: file, receiptUrl });
+      setFormValues({
+        ...formValues,
+        receipt: { file, url: URL.createObjectURL(file) }, // Actualiza receipt
+      });
     }
   };
 
@@ -101,13 +111,84 @@ function CreateRequestForm() {
     if (activeTab > 0) setActiveTab(activeTab - 1);
   };
 
-  const handleFinish = (e) => {
+  const isFormValid = () => {
+    const {
+      titular,
+      category,
+      brand,
+      operationHours,
+      description,
+      images,
+      receipt,
+      phoneNumber,
+      email,
+    } = formValues;
+    return (
+      titular.trim() &&
+      category &&
+      brand.trim() &&
+      operationHours.trim() &&
+      description.trim() &&
+      images.length === 4 &&
+      receipt &&
+      phoneNumber.trim() &&
+      email.trim()
+    );
+  };
+
+  const uploadImageToCloudinary = async (image) => {
+    const formData = new FormData();
+    formData.append("file", image); // Archivo de imagen
+    formData.append("upload_preset", "form_upload"); // Tu Upload Preset configurado en Cloudinary
+    formData.append("cloud_name", "dg33brioz"); // Tu Cloud Name
+
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/dg33brioz/image/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      return data.secure_url; // URL segura de la imagen
+    } catch (error) {
+      console.error("Error al subir la imagen a Cloudinary:", error);
+      throw error;
+    }
+  };
+
+  const handleFinish = async (e) => {
     e.preventDefault();
+
+    // Validar términos y condiciones
     if (!termsAccepted) {
-      alert("Debe aceptar los términos y condiciones para continuar.");
+      toast.error("Debe aceptar los términos y condiciones para continuar.");
       return;
     } else {
-      console.log("Formulario enviado:", formValues);
+      if (!isFormValid()) {
+        toast.error("Debe llenar todos los campos y subir las 5 imágenes requeridas.");
+        return;
+      } else {
+        try {
+          const uploadedImages = [];
+          for (const image of formValues.images) {
+            const imageUrl = await uploadImageToCloudinary(image.file);
+            uploadedImages.push(imageUrl);
+          }
+
+          const receiptUrl = await uploadImageToCloudinary(formValues.receipt.file);
+
+          // Enviar datos con imágenes subidas
+          const submissionData = {
+            ...formValues,
+            images: uploadedImages,
+            receiptUrl,
+          };
+
+          console.log("Datos enviados:", submissionData);
+        } catch (error) {
+          alert("Hubo un error al procesar el formulario.");
+        }
+      }
 
       // Generar un código de rastreo aleatorio y simular la confirmación de envío
       const generatedTrackingCode = Math.floor(10000 + Math.random() * 90000).toString();
@@ -339,7 +420,7 @@ function CreateRequestForm() {
                       >
                         {formValues.receipt ? (
                           <img
-                            src={formValues.receiptUrl}
+                            src={formValues.receipt.url} // Usar receipt.url
                             alt="Receipt Preview"
                             style={{
                               width: "100%",

@@ -31,9 +31,14 @@ const CategoriesSection = () => {
   useEffect(() => {
     getCategorias()
       .then((data) => {
-        setCategories(data); // Actualiza las categorías en el estado
+        setCategories(data);
       })
-      .catch((error) => console.error("Error al obtener categorías:", error));
+      .catch((error) =>
+        console.error(
+          "Error al obtener categorías:", 
+          error
+        )
+      );
   }, []);
 
   return (
