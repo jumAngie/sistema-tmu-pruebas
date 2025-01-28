@@ -155,7 +155,7 @@ function CreateRequestForm() {
 
   const handleFinish = async (e) => {
     e.preventDefault();
-
+  
     // Validar términos y condiciones
     if (!termsAccepted) {
       toast.error("Debe aceptar los términos y condiciones para continuar.");
@@ -171,33 +171,37 @@ function CreateRequestForm() {
             const imageUrl = await uploadImageToCloudinary(image.file);
             uploadedImages.push(imageUrl);
           }
-
+  
           const receiptUrl = await uploadImageToCloudinary(formValues.receipt.file);
-
+  
           // Enviar datos con imágenes subidas
           const submissionData = {
-              titular: formValues.titular,
-              category: formValues.category.id, // Debe ser el ID de la categoría
-              brand: formValues.brand,
-              operationHours: formValues.operationHours,
-              description: formValues.description,
-              images: uploadedImages, // Array de objetos con la URL de cada imagen
-              receipt: { url: receiptUrl }, // Comprobante
-              price: formValues.price,
-              phoneNumber: formValues.phoneNumber,
-              additionalPhoneNumber: formValues.additionalPhoneNumber,
-              email: formValues.email,
-              client: formValues.client,
+            titular: formValues.titular,
+            category: formValues.category.id, // Debe ser el ID de la categoría
+            brand: formValues.brand,
+            operationHours: formValues.operationHours,
+            description: formValues.description,
+            images: uploadedImages, // Array de objetos con la URL de cada imagen
+            receipt: { url: receiptUrl }, // Comprobante
+            price: formValues.price,
+            phoneNumber: formValues.phoneNumber,
+            additionalPhoneNumber: formValues.additionalPhoneNumber,
+            email: formValues.email,
+            client: formValues.client,
           };
-
+  
           console.log(submissionData);
-
+  
+          // Llamada al backend
           const result = await insertarSolicitud(submissionData);
-          
-          const generatedTrackingCode = result;
-          setTrackingCode(generatedTrackingCode);
+  
+          // Extraer el ID de la solicitud
+          const { solicitudId } = result;
+  
+          // Establecer el código de rastreo
+          setTrackingCode(solicitudId);
           setIsSubmitted(true);
-
+  
         } catch (error) {
           toast.error("Hubo un error al procesar el formulario.");
         }

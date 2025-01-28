@@ -285,7 +285,7 @@ function AdminProfile() {
               {solicitudes.map((solicitud) => (
                 <Grid container spacing={2} key={solicitud.sol_Id} style={{ padding: "10px 0" }}>
                   <Grid item xs={2} style={{ textAlign: "center" }}>
-                    {solicitud.sol_Cod}
+                    {solicitud.sol_ID}
                   </Grid>
                   <Grid item xs={3} style={{ textAlign: "center" }}>
                     {solicitud.sol_Titular}
