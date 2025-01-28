@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import { getCategorias } from "apiServices";
+import { insertarSolicitud } from "apiServices";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -118,6 +119,7 @@ function CreateRequestForm() {
       phoneNumber,
       email,
     } = formValues;
+    console.log(formValues);
     return (
       titular.trim() &&
       category &&
@@ -174,21 +176,32 @@ function CreateRequestForm() {
 
           // Enviar datos con imágenes subidas
           const submissionData = {
-            ...formValues,
-            images: uploadedImages,
-            receiptUrl,
+              titular: formValues.titular,
+              category: formValues.category.id, // Debe ser el ID de la categoría
+              brand: formValues.brand,
+              operationHours: formValues.operationHours,
+              description: formValues.description,
+              images: uploadedImages, // Array de objetos con la URL de cada imagen
+              receipt: { url: receiptUrl }, // Comprobante
+              price: formValues.price,
+              phoneNumber: formValues.phoneNumber,
+              additionalPhoneNumber: formValues.additionalPhoneNumber,
+              email: formValues.email,
+              client: formValues.client,
           };
 
-          console.log("Datos enviados:", submissionData);
+          console.log(submissionData);
+
+          //const result = await insertarSolicitud(submissionData);
+          
+          //const generatedTrackingCode = result;
+         // setTrackingCode(generatedTrackingCode);
+          //setIsSubmitted(true);
+
         } catch (error) {
-          alert("Hubo un error al procesar el formulario.");
+          toast.error("Hubo un error al procesar el formulario.");
         }
       }
-
-      // Generar un código de rastreo aleatorio y simular la confirmación de envío
-      const generatedTrackingCode = Math.floor(10000 + Math.random() * 90000).toString();
-      setTrackingCode(generatedTrackingCode);
-      setIsSubmitted(true); // Cambiar el estado a enviado
     }
   };
 
