@@ -155,7 +155,7 @@ function CreateRequestForm() {
 
   const handleFinish = async (e) => {
     e.preventDefault();
-  
+
     // Validar términos y condiciones
     if (!termsAccepted) {
       toast.error("Debe aceptar los términos y condiciones para continuar.");
@@ -171,9 +171,9 @@ function CreateRequestForm() {
             const imageUrl = await uploadImageToCloudinary(image.file);
             uploadedImages.push(imageUrl);
           }
-  
+
           const receiptUrl = await uploadImageToCloudinary(formValues.receipt.file);
-  
+
           // Enviar datos con imágenes subidas
           const submissionData = {
             titular: formValues.titular,
@@ -189,19 +189,18 @@ function CreateRequestForm() {
             email: formValues.email,
             client: formValues.client,
           };
-  
+
           console.log(submissionData);
-  
+
           // Llamada al backend
           const result = await insertarSolicitud(submissionData);
-  
+
           // Extraer el ID de la solicitud
           const { solicitudId } = result;
-  
+
           // Establecer el código de rastreo
           setTrackingCode(solicitudId);
           setIsSubmitted(true);
-  
         } catch (error) {
           toast.error("Hubo un error al procesar el formulario.");
         }
