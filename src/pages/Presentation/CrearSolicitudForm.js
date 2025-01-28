@@ -26,12 +26,7 @@ function CreateRequestForm() {
       .then((data) => {
         setCategories(data);
       })
-      .catch((error) =>
-        console.error(
-          "Error al obtener categorías:",
-          error
-        )
-      );
+      .catch((error) => console.error("Error al obtener categorías:", error));
   }, []);
 
   const [termsAccepted, setTermsAccepted] = useState(false); // Estado para el checkbox
