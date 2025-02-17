@@ -15,8 +15,11 @@ import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import { getCategorias } from "apiServices";
 import { insertarSolicitud } from "apiServices";
+import { insertarSolicitud_Temp } from "apiServices";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MKBadge from "components/MKBadge";
+import terminosPDF from "assets/docs/terminosycondiciones.pdf";
 
 function CreateRequestForm() {
   const navigate = useNavigate();
@@ -133,6 +136,24 @@ function CreateRequestForm() {
     );
   };
 
+  const isFormValid_Temp = () => {
+    const { titular, category, brand, operationHours, description, images, phoneNumber, email } =
+      formValues;
+
+    console.log(formValues);
+
+    return (
+      titular.trim() &&
+      category &&
+      brand.trim() &&
+      operationHours.trim() &&
+      description.trim() &&
+      images.length === 4 && // Solo validamos las 4 imágenes
+      phoneNumber.trim() &&
+      email.trim()
+    );
+  };
+
   const uploadImageToCloudinary = async (image) => {
     const formData = new FormData();
     formData.append("file", image); // Archivo de imagen
@@ -172,6 +193,8 @@ function CreateRequestForm() {
             uploadedImages.push(imageUrl);
           }
 
+          console.log(formValues);
+
           const receiptUrl = await uploadImageToCloudinary(formValues.receipt.file);
 
           // Enviar datos con imágenes subidas
@@ -194,6 +217,60 @@ function CreateRequestForm() {
 
           // Llamada al backend
           const result = await insertarSolicitud(submissionData);
+
+          // Extraer el ID de la solicitud
+          const { solicitudId } = result;
+
+          // Establecer el código de rastreo
+          setTrackingCode(solicitudId);
+          setIsSubmitted(true);
+        } catch (error) {
+          toast.error("Hubo un error al procesar el formulario.");
+        }
+      }
+    }
+  };
+
+  const handleFinish_Temp = async (e) => {
+    e.preventDefault();
+
+    // Validar términos y condiciones
+    if (!termsAccepted) {
+      toast.error("Debe aceptar los términos y condiciones para continuar.");
+      return;
+    } else {
+      if (!isFormValid_Temp()) {
+        toast.error("Debe llenar todos los campos y subir las 4 imágenes requeridas.");
+        return;
+      } else {
+        try {
+          const uploadedImages = [];
+          for (const image of formValues.images) {
+            const imageUrl = await uploadImageToCloudinary(image.file);
+            uploadedImages.push(imageUrl);
+          }
+
+          console.log(formValues);
+
+          // Enviar datos con imágenes subidas SIN el comprobante de pago
+          const submissionData = {
+            titular: formValues.titular,
+            category: formValues.category.id,
+            brand: formValues.brand,
+            operationHours: formValues.operationHours,
+            description: formValues.description,
+            images: uploadedImages,
+            price: formValues.price,
+            phoneNumber: formValues.phoneNumber,
+            additionalPhoneNumber: formValues.additionalPhoneNumber,
+            email: formValues.email,
+            client: formValues.client,
+          };
+
+          console.log(submissionData);
+
+          // Llamada al backend usando la nueva función
+          const result = await insertarSolicitud_Temp(submissionData);
 
           // Extraer el ID de la solicitud
           const { solicitudId } = result;
@@ -407,6 +484,16 @@ function CreateRequestForm() {
                   <MKTypography variant="h6" color="error" mb={2}>
                     Subir Comprobante de Pago (Obligatorio)
                   </MKTypography>
+                  <MKBadge
+                    badgeContent="DESHABILITADO TEMPORALMENTE"
+                    variant="contained"
+                    color="info"
+                    container
+                    circular
+                    sx={{
+                      mb: 1,
+                    }}
+                  />
                   <MKBox>
                     <input
                       accept="image/*"
@@ -431,7 +518,7 @@ function CreateRequestForm() {
                       >
                         {formValues.receipt ? (
                           <img
-                            src={formValues.receipt.url} // Usar receipt.url
+                            src={formValues.receipt.url}
                             alt="Receipt Preview"
                             style={{
                               width: "100%",
@@ -546,34 +633,28 @@ function CreateRequestForm() {
                       top: "50%",
                       left: "50%",
                       transform: "translate(-50%, -50%)",
-                      width: 1500,
+                      width: "80%",
+                      maxWidth: "900px",
                       bgcolor: "background.paper",
                       boxShadow: 24,
                       p: 4,
-                      overflow: "auto",
-                      maxHeight: "98vh",
+                      overflow: "hidden",
+                      maxHeight: "95vh",
                     }}
                   >
                     <MKTypography id="terms-modal-title" variant="h6" component="h2" mb={2}>
                       Términos y Condiciones
                     </MKTypography>
-                    <object
-                      data={`${process.env.PUBLIC_URL}/docs/TérminosyCondiciones.pdf`}
-                      type="application/pdf"
+
+                    {/* Contenedor del PDF */}
+                    <iframe
+                      src={terminosPDF}
+                      title="Términos y Condiciones"
                       width="100%"
                       height="500px"
-                    >
-                      <p>
-                        Su navegador no soporta visualizar el PDF. Puede{" "}
-                        <a
-                          href={`${process.env.PUBLIC_URL}/docs/TérminosyCondiciones.pdf`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          descargarlo aquí.
-                        </a>
-                      </p>
-                    </object>
+                      style={{ border: "none" }}
+                    />
+
                     <MKBox textAlign="center" mt={3}>
                       <Button variant="contained" color="warning" onClick={handleCloseModal}>
                         Cerrar
@@ -604,7 +685,7 @@ function CreateRequestForm() {
                 startIcon={<Icon>send</Icon>}
                 variant="contained"
                 color="success"
-                onClick={handleFinish}
+                onClick={handleFinish_Temp}
                 disabled={!termsAccepted}
               >
                 Finalizar

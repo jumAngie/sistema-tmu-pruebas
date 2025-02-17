@@ -145,3 +145,24 @@ export const insertarSolicitud = async (solicitud) => {
     throw error;
   }
 };
+
+export const insertarSolicitud_Temp = async (solicitud) => {
+  try {
+    const response = await fetch(`${API_URL}/api/insertarsolicitudtemp`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(solicitud),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al insertar la solicitud");
+    }
+
+    return await response.json(); // Devuelve el resultado del backend
+  } catch (error) {
+    console.error("Error en la llamada a la API:", error);
+    throw error;
+  }
+};
