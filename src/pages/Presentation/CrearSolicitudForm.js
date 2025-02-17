@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import { getCategorias } from "apiServices";
-import { insertarSolicitud } from "apiServices";
+//import { insertarSolicitud } from "apiServices";
 import { insertarSolicitud_Temp } from "apiServices";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -110,7 +110,7 @@ function CreateRequestForm() {
     if (activeTab > 0) setActiveTab(activeTab - 1);
   };
 
- /* const isFormValid = () => {
+/* const isFormValid = () => {
     const {
       titular,
       category,
@@ -174,7 +174,7 @@ function CreateRequestForm() {
     }
   };
 
- /* const handleFinish = async (e) => {
+/* const handleFinish = async (e) => {
     e.preventDefault();
 
     // Validar términos y condiciones
