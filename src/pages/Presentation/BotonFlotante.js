@@ -6,7 +6,7 @@ import { styled } from "@mui/system";
 
 const FloatingButton = styled(Fab)({
   position: "fixed",
-  bottom: "30px",
+  bottom: "90px",
   right: "20px",
   backgroundColor: "#007A32",
   color: "#fff",

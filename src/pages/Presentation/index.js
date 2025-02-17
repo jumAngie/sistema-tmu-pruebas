@@ -16,8 +16,6 @@ import {
 import { getTopSolicitudes } from "apiServices";
 
 import InfoIcon from "@mui/icons-material/Info";
-
-// Material Kit 2 React components
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import MKBox from "components/MKBox";
 import CategoriesSection from "pages/Presentation/Categorias";
