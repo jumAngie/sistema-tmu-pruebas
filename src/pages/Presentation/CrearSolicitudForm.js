@@ -110,7 +110,7 @@ function CreateRequestForm() {
     if (activeTab > 0) setActiveTab(activeTab - 1);
   };
 
-  const isFormValid = () => {
+ /* const isFormValid = () => {
     const {
       titular,
       category,
@@ -134,7 +134,7 @@ function CreateRequestForm() {
       phoneNumber.trim() &&
       email.trim()
     );
-  };
+  };*/
 
   const isFormValid_Temp = () => {
     const { titular, category, brand, operationHours, description, images, phoneNumber, email } =
@@ -174,7 +174,7 @@ function CreateRequestForm() {
     }
   };
 
-  const handleFinish = async (e) => {
+ /* const handleFinish = async (e) => {
     e.preventDefault();
 
     // Validar términos y condiciones
@@ -229,7 +229,7 @@ function CreateRequestForm() {
         }
       }
     }
-  };
+  };*/
 
   const handleFinish_Temp = async (e) => {
     e.preventDefault();
