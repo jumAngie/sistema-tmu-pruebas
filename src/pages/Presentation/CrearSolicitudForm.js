@@ -110,7 +110,7 @@ function CreateRequestForm() {
     if (activeTab > 0) setActiveTab(activeTab - 1);
   };
 
-/* const isFormValid = () => {
+  /* const isFormValid = () => {
     const {
       titular,
       category,
@@ -174,7 +174,7 @@ function CreateRequestForm() {
     }
   };
 
-/* const handleFinish = async (e) => {
+  /* const handleFinish = async (e) => {
     e.preventDefault();
 
     // Validar términos y condiciones
