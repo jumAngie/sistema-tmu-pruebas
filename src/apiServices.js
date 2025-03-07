@@ -218,3 +218,24 @@ export const getMachineDetails = async (sol_ID) => {
     throw error;
   }
 };
+
+export const insertarCategoria = async (categoria) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/insertar_categorias`, categoria);
+    return response.data;
+  } catch (error) {
+    console.error("Error al insertar la categoría:", error);
+    throw error;
+  }
+};
+
+export const actualizarCategoria = async (categoria) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/actualizar_categorias`, categoria);
+    return response.data;
+  } catch (error) {
+    console.error("Error al insertar la categoría:", error);
+    throw error;
+  }
+};
+

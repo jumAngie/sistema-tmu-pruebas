@@ -1,55 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Typography as MKTypography, Box, Modal, TextField, Icon, Grid } from "@mui/material";
 import MKButton from "components/MKButton";
-
-import soldaduraImage from "assets/images/Categorias/SOLDADURA.jpg";
-import calderasImage from "assets/images/Categorias/CALDERAS-DE-VAPOR.jpg";
-import cocinasImage from "assets/images/Categorias/COCINAS-INDUSTRIALES.png";
-import equipoImage from "assets/images/Categorias/EQUIPO-DE-CONSTRUCCION.jpg";
-import generadoresImage from "assets/images/Categorias/GENERADORES.png";
-
-import aireacondicionadoImage from "assets/images/Categorias/AIRE-ACONDICIONADO-Y-REFRIGERACION.jpg";
-import compresorImage from "assets/images/Categorias/COMPRESORES-DE-AIRE.jfif";
-import maqAgricolaImage from "assets/images/Categorias/MAQUINARIA-AGRICOLA.png";
-import maqTextilImage from "assets/images/Categorias/MAQUINARIA-TEXTIL.jpg";
-import mineriaImage from "assets/images/Categorias/MINERIA.jpg";
-import montacargaImage from "assets/images/Categorias/MONTACARGAS.jpg";
-import plataElevacionImage from "assets/images/Categorias/PLATAFORMAS-DE-ELEVACION.jpg";
+import { actualizarCategoria, insertarCategoria, getCategorias } from "apiServices";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminCategories = () => {
-  const [categories, setCategories] = useState([
-    { id: 1, img: soldaduraImage, name: "SOLDADURA" },
-    { id: 2, img: calderasImage, name: "CALDERAS DE VAPOR" },
-    { id: 3, img: cocinasImage, name: "COCINAS INDUSTRIALES" },
-    { id: 4, img: equipoImage, name: "EQUIPO DE CONSTRUCCIÓN" },
-    { id: 5, img: generadoresImage, name: "GENERADORES" },
-    { id: 6, img: aireacondicionadoImage, name: "AIRE ACONDICIONADO Y REGRIFERACIÓN" },
-    { id: 7, img: compresorImage, name: "COMPRESORES DE AIRE" },
-    { id: 8, img: maqAgricolaImage, name: "MÁQUINAS AGRICOLAS" },
-    { id: 9, img: maqTextilImage, name: "MÁQUINAS TEXTILES" },
-    { id: 10, img: mineriaImage, name: "MINERÍA" },
-    { id: 11, img: montacargaImage, name: "MONTACARGA" },
-    { id: 12, img: plataElevacionImage, name: "PLATAFORMA DE ELEVACIÓN" },
-  ]);
+  const [categories, setCategories] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [newCategory, setNewCategory] = useState({ name: "", image: "" });
 
-  const handleOpenModal = (category) => {
+  const fetchCategories = async () => {
+    try {
+      const data = await getCategorias();
+      const formattedCategories = data.map((cat) => ({
+        id: cat.cat_ID,
+        name: cat.cat_Nombre,
+        img: cat.cat_Imagen, // Asegúrate de que `cat_Imagen` sea la URL correcta
+      }));
+      setCategories(formattedCategories);
+    } catch (error) {
+      console.error("Error al cargar categorías:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Llama a la función fetchCategories cuando el componente se monte
+    fetchCategories();
+  }, []);
+
+  const handleOpenModal = (category = null) => {
     setSelectedCategory(category);
+    if (category) {
+      setNewCategory({ id: category.id, name: category.name, image: category.img }); // Cargar datos al editar
+    } else {
+      setNewCategory({ name: "", image: "" });
+    }
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    setNewCategory({ name: "", image: "" });
     setSelectedCategory(null);
   };
 
-  const handleAddCategory = () => {
-    // Lógica para agregar nueva categoría
-    setCategories([...categories, { id: Date.now(), ...newCategory }]);
-    setNewCategory({ name: "", image: "" });
-    handleCloseModal();
+  const handleSaveCategory = async () => {
+    try {
+      if (!newCategory.name || !newCategory.image) {
+        toast.warning("Todos los campos son obligatorios.");
+        return;
+      }
+
+      const categoryData = {
+        cat_Nombre: newCategory.name,
+        cat_Imagen: newCategory.image,
+      };
+
+      if (selectedCategory) {
+        // Si existe selectedCategory, es una actualización
+        await actualizarCategoria({ ...categoryData, cat_ID: selectedCategory.cat_ID });
+        toast.success("Categoría actualizada correctamente.");
+      } else {
+        // Si no hay selectedCategory, es una inserción
+        await insertarCategoria(categoryData);
+        toast.success("Categoría agregada correctamente.");
+      }
+
+      handleCloseModal();
+      fetchCategories(); // Recargar la lista de categorías
+    } catch (error) {
+      console.error("Error al guardar la categoría:", error);
+      toast.error("Hubo un error al guardar la categoría.");
+    }
   };
 
   const handleDeleteCategory = (id) => {
@@ -67,8 +91,8 @@ const AdminCategories = () => {
             variant="contained"
             startIcon={<Icon>add</Icon>}
             color="success"
-            onClick={() => setOpenModal(true)}
-            sx={{ width: "19%", height: "30%" }} // Ajusta el ancho según sea necesario
+            onClick={() => handleOpenModal()}
+            sx={{ width: "19%", height: "30%" }}
           >
             Agregar Nueva Categoría
           </MKButton>
@@ -96,7 +120,7 @@ const AdminCategories = () => {
               <img
                 src={category.img}
                 alt={category.name}
-                style={{ width: 100, height: 100, objectFit: "cover" }} // Ajusta el tamaño según tus necesidades
+                style={{ width: 100, height: 100, objectFit: "cover" }}
               />
             </Grid>
             <Grid item xs={2} style={{ textAlign: "center" }}>
@@ -104,16 +128,6 @@ const AdminCategories = () => {
             </Grid>
             <Grid item xs={4} style={{ textAlign: "center" }}>
               <Box display="flex" justifyContent="center" alignItems="center" gap={1}>
-                <MKButton
-                  variant="contained"
-                  color="light"
-                  size="small"
-                  startIcon={<Icon>visibility</Icon>}
-                  sx={{ fontSize: "0.875rem" }}
-                  //onClick={() => handleViewDetails(category.id)}
-                >
-                  Detalles
-                </MKButton>
                 <MKButton
                   variant="contained"
                   color="secondary"
@@ -141,12 +155,7 @@ const AdminCategories = () => {
       </Card>
 
       {/* Modal para agregar/editar categoría */}
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
+      <Modal open={openModal} onClose={handleCloseModal}>
         <Box
           sx={{
             position: "absolute",
@@ -177,7 +186,7 @@ const AdminCategories = () => {
             onChange={(e) => setNewCategory({ ...newCategory, image: e.target.value })}
             sx={{ mb: 2 }}
           />
-          <MKButton variant="contained" color="success" onClick={handleAddCategory} sx={{ mr: 1 }}>
+          <MKButton variant="contained" color="success" onClick={handleSaveCategory} sx={{ mr: 1 }}>
             {selectedCategory ? "Actualizar" : "Agregar"}
           </MKButton>
           <MKButton variant="outlined" color="secondary" onClick={handleCloseModal}>
