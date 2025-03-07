@@ -238,4 +238,3 @@ export const actualizarCategoria = async (categoria) => {
     throw error;
   }
 };
-
