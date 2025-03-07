@@ -8,6 +8,7 @@ import routes from "routes";
 import CenteredFooter from "examples/Footers/CenteredFooter";
 import { useNavigate } from "react-router-dom";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // Images
 import bgImage from "assets/images/fondoprueba.png";
@@ -149,9 +150,9 @@ const MachinesByCategory = () => {
                                   borderColor: "#e0f2f1",
                                 },
                               }}
-                              onClick={() => console.log("Ver más de la máquina", machine.sol_ID)}
+                              onClick={() => navigate(`/info-maquina/${machine.sol_ID}`)} 
                             >
-                              Ver más
+                              <VisibilityIcon/> Ver más
                             </Button>
                           </Card>
                         </Grid>

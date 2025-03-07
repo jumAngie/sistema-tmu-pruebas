@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MKBadge from "components/MKBadge";
 import terminosPDF from "assets/docs/terminosycondiciones.pdf";
+import CircularProgress from "@mui/material/Icon";
 
 function CreateRequestForm() {
   const navigate = useNavigate();
@@ -30,11 +31,13 @@ function CreateRequestForm() {
       .then((data) => {
         setCategories(data);
       })
-      .catch((error) => console.error("Error al obtener categorías:", error));
+      .catch((error) =>
+        console.error("Error al obtener categorías:", error));
   }, []);
 
-  const [termsAccepted, setTermsAccepted] = useState(false); // Estado para el checkbox
-  const [openModal, setOpenModal] = useState(false); // Estado para el modal
+  const [termsAccepted, setTermsAccepted] = useState(false); 
+  const [openModal, setOpenModal] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [formValues, setFormValues] = useState({
     titular: "",
@@ -244,6 +247,7 @@ function CreateRequestForm() {
         return;
       } else {
         try {
+          setLoading(true);
           const uploadedImages = [];
           for (const image of formValues.images) {
             const imageUrl = await uploadImageToCloudinary(image.file);
@@ -280,6 +284,9 @@ function CreateRequestForm() {
           setIsSubmitted(true);
         } catch (error) {
           toast.error("Hubo un error al procesar el formulario.");
+        }
+        finally {
+          setLoading(false); 
         }
       }
     }
@@ -481,17 +488,17 @@ function CreateRequestForm() {
                 </Grid>
                 {/* Contenedor para el comprobante de pago */}
                 <MKBox mt={4}>
-                  <MKTypography variant="h6" color="error" mb={2}>
+                  <MKTypography variant="h6" color="default" mb={2}>
                     Subir Comprobante de Pago (Obligatorio)
                   </MKTypography>
                   <MKBadge
-                    badgeContent="DESHABILITADO TEMPORALMENTE"
+                    badgeContent="** DESHABILITADO TEMPORALMENTE **"
                     variant="contained"
-                    color="info"
+                    color="error"
                     container
                     circular
                     sx={{
-                      mb: 1,
+                      mb: 3,
                     }}
                   />
                   <MKBox>
@@ -682,13 +689,13 @@ function CreateRequestForm() {
               </MKButton>
             ) : (
               <MKButton
-                startIcon={<Icon>send</Icon>}
+              startIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Icon>send</Icon>}
                 variant="contained"
                 color="success"
                 onClick={handleFinish_Temp}
-                disabled={!termsAccepted}
+                disabled={!termsAccepted || loading}
               >
-                Finalizar
+                {loading ? "Procesando..." : "Finalizar"}
               </MKButton>
             )}
           </MKBox>

@@ -40,6 +40,9 @@ function CenteredFooter({ company, socials, light }) {
             embargo, no nos hacemos responsables por las transacciones que se realicen. Por favor
             verifique cuidadosamente antes de realizar cualquier pago.
           </MKTypography>
+          <MKTypography variant="body1" lg={8} sx={{ textAlign: "center" }}>
+            Correo de Soporte: soporte-cliente@tumaquinausada.com
+          </MKTypography>
         </Grid>
         <Grid item xs={12} lg={8}>
           <Stack display="flex" direction="row" justifyContent="center" spacing={3} mt={1} mb={3}>
@@ -59,7 +62,6 @@ function CenteredFooter({ company, socials, light }) {
             >
               {name}
             </MKTypography>
-            .
           </MKTypography>
         </Grid>
       </Grid>

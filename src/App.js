@@ -53,7 +53,7 @@ export default function App() {
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/admin-profile" element={<AdminProfile />} />
         <Route path="/crear-solicitud" element={<CreateRequestForm />} />
-        <Route path="/info-maquina" element={<MachineInfo />} />
+        <Route path="/info-maquina/:sol_ID" element={<MachineInfo />} />
         <Route path="/crear-solicitud-page" element={<PublicarMaquina />} />
         <Route path="/rastrear-solicitud" element={<TrackingPage />} />
         <Route path="/categoria/:cat_ID" element={<MachinesByCategory />} />
