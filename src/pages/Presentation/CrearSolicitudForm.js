@@ -283,7 +283,9 @@ function CreateRequestForm() {
           setIsSubmitted(true);
         } catch (error) {
           toast.error("Hubo un error al procesar el formulario.");
-        } finally { setLoading(false); }
+        } finally {
+          setLoading(false);
+        }
       }
     }
   };
