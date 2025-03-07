@@ -7,13 +7,13 @@ import Paper from "@mui/material/Paper";
 import Icon from "@mui/material/Icon";
 import Avatar from "@mui/material/Avatar";
 import { AppBar, Toolbar, Typography, Modal, Box, Grid, TextField } from "@mui/material";
-
 import AdminCategories from "pages/Presentation/AdminCategoriasForm";
 import logoperfil from "assets/images/logo-perfil.png";
 import { getSolicitudes } from "apiServices"; //
 import { getSolicitudesRechazadas } from "apiServices";
 import { getSolicitudesAceptadas } from "apiServices";
 import { aceptarSolicitud } from "apiServices";
+import { rechazar_Solicitud } from "apiServices";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -32,10 +32,18 @@ function AdminProfile() {
   // Estado para el modal y el motivo
   const [openRejectModal, setOpenRejectModal] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
+  const [solID, setSolID] = useState(null);
 
-  // Función para abrir el modal
-  const handleSendRejection = () => {
-    setOpenRejectModal(true);
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    if (!isAuthenticated) {
+      navigate("/pages/authentication/sign-in"); // Ruta a la página de login
+    }
+  }, []);
+
+  const handleOpenRejectModal = (id) => {
+    setSolID(id); // Estableces el ID de la solicitud
+    setOpenRejectModal(true); // Abres el modal
   };
 
   // Función para cerrar el modal
@@ -46,14 +54,19 @@ function AdminProfile() {
 
   // Función para confirmar el rechazo
   const handleConfirmRejection = async () => {
-    // Aquí se enviará el motivo del rechazo a la base de datos
-    /* try {
-      await rechazarSolicitud(selectedRequest.sol_ID, rejectionReason); // Asume que tienes este método en tu apiServices
-      console.log("Solicitud rechazada");
-      handleCloseRejectModal();
+    console.log(solID, rejectionReason)
+    if (!solID || !rejectionReason) return; // Validar que todo esté completo
+
+    try {
+      const response = await rechazar_Solicitud({ sol_ID: solID, rejection: rejectionReason });
+      toast.success(response.message);
+      setOpenRejectModal(false);
+      handleCloseRequestModal();
+      await fetchSolicitudes();
     } catch (error) {
       console.error("Error al rechazar la solicitud:", error);
-    }*/
+      toast.error("Hubo un error al rechazar la solicitud.");
+    }
   };
 
   const fetchSolicitudes = async () => {
@@ -103,6 +116,7 @@ function AdminProfile() {
     // localStorage.removeItem("token");
 
     // Redirige a la página de inicio de sesión
+    localStorage.removeItem("isAuthenticated");
     navigate("/pages/authentication/sign-in");
   };
 
@@ -509,7 +523,7 @@ function AdminProfile() {
                   </MKButton>
                   {/* Botón de Rechazar */}
                   <MKButton
-                    onClick={handleSendRejection}
+                    onClick={() => handleOpenRejectModal(selectedRequest.sol_ID)} 
                     sx={{
                       padding: "12px 24px",
                       fontSize: "1.1rem",

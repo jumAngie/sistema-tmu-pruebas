@@ -45,7 +45,8 @@ function Presentation() {
       .then((data) => {
         setSolicitudes(data);
       })
-      .catch((error) => console.error("Error al obtener solicitudes:", error));
+      .catch((error) =>
+        console.error("Error al obtener solicitudes:", error));
   }, []);
 
   const [activeSection, setActiveSection] = useState("home");
@@ -295,7 +296,7 @@ function Presentation() {
                         variant="contained"
                         color="success"
                         startIcon={<Icon>visibility</Icon>}
-                        onClick={() => navigate("/info-maquina")}
+                        onClick={() => navigate(`/info-maquina/${solicitud.sol_ID}`)} 
                         sx={{
                           backgroundColor: "#1428A0",
                           color: "#fff",

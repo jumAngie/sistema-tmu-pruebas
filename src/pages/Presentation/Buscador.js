@@ -12,11 +12,13 @@ import {
 import MKTypography from "components/MKTypography";
 import { buscarSolicitudes } from "apiServices"; // Importa el servicio de búsqueda
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; // Icono para el botón "Ver más"
+import { useNavigate } from "react-router-dom";
 
 const BuscadorSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     if (!searchTerm) {
@@ -183,9 +185,7 @@ const BuscadorSection = () => {
                     borderColor: "#e0f2f1",
                   },
                 }}
-                onClick={() =>
-                  console.log("Navegar a más información de la solicitud", result.sol_ID)
-                }
+                onClick={() => navigate(`/info-maquina/${result.sol_ID}`)} 
               >
                 Ver más
               </Button>
