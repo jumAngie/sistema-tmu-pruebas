@@ -150,9 +150,9 @@ const MachinesByCategory = () => {
                                   borderColor: "#e0f2f1",
                                 },
                               }}
-                              onClick={() => navigate(`/info-maquina/${machine.sol_ID}`)} 
+                              onClick={() => navigate(`/info-maquina/${machine.sol_ID}`)}
                             >
-                              <VisibilityIcon/> Ver más
+                              <VisibilityIcon /> Ver más
                             </Button>
                           </Card>
                         </Grid>

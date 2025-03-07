@@ -202,7 +202,7 @@ export const rechazar_Solicitud = async (motivo) => {
       throw new Error("Error al rechazar la solicitud");
     }
 
-    return await response.json(); 
+    return await response.json();
   } catch (error) {
     console.error("Error en la llamada a la API:", error);
     throw error;
@@ -212,7 +212,7 @@ export const rechazar_Solicitud = async (motivo) => {
 export const getMachineDetails = async (sol_ID) => {
   try {
     const response = await axios.get(`${API_URL}/api/solicitud_detalles?sol_ID=${sol_ID}`); // Usamos GET y pasamos el ID como query parameter
-    return response.data;  // Aquí retornamos los datos que el backend nos responde
+    return response.data; // Aquí retornamos los datos que el backend nos responde
   } catch (error) {
     console.error("Error al obtener los detalles de la máquina:", error);
     throw error;

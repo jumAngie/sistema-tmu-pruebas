@@ -185,7 +185,7 @@ const BuscadorSection = () => {
                     borderColor: "#e0f2f1",
                   },
                 }}
-                onClick={() => navigate(`/info-maquina/${result.sol_ID}`)} 
+                onClick={() => navigate(`/info-maquina/${result.sol_ID}`)}
               >
                 Ver más
               </Button>

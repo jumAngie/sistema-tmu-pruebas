@@ -151,19 +151,24 @@ function MachineInfo() {
                   <PrecisionManufacturingIcon /> Información General
                 </Typography>
                 <Typography variant="body1">
-                <BookmarksIcon/><strong> Marca:</strong> {machineDetails.sol_Marca}
+                  <BookmarksIcon />
+                  <strong> Marca:</strong> {machineDetails.sol_Marca}
                 </Typography>
                 <Typography variant="body1">
-                <AccessTimeIcon/><strong> Horas:</strong> {machineDetails.sol_Horas}
+                  <AccessTimeIcon />
+                  <strong> Horas:</strong> {machineDetails.sol_Horas}
                 </Typography>
                 <Typography variant="body1">
-                <CategoryIcon/><strong> Categoría:</strong> {machineDetails.cat_Nombre}
+                  <CategoryIcon />
+                  <strong> Categoría:</strong> {machineDetails.cat_Nombre}
                 </Typography>
                 <Typography variant="body1">
-                <DescriptionIcon/><strong> Descripción:</strong> {machineDetails.sol_Descripcion}
+                  <DescriptionIcon />
+                  <strong> Descripción:</strong> {machineDetails.sol_Descripcion}
                 </Typography>
                 <Typography variant="body1">
-                <PaidIcon/><strong> Precio:</strong> HNL. {machineDetails.sol_Precio}
+                  <PaidIcon />
+                  <strong> Precio:</strong> HNL. {machineDetails.sol_Precio}
                 </Typography>
               </CardContent>
             </Card>
@@ -180,13 +185,16 @@ function MachineInfo() {
                 {/* Mostrar información de contacto */}
                 <div style={{ marginBottom: "20px" }}>
                   <Typography variant="body1">
-                  <PhoneIcon/><strong> Teléfono Principal:</strong> {machineDetails.sol_Telefono_1}
+                    <PhoneIcon />
+                    <strong> Teléfono Principal:</strong> {machineDetails.sol_Telefono_1}
                   </Typography>
                   <Typography variant="body1">
-                  <PhoneIcon/><strong> Teléfono Adicional:</strong> {machineDetails.sol_Telefono_2}
+                    <PhoneIcon />
+                    <strong> Teléfono Adicional:</strong> {machineDetails.sol_Telefono_2}
                   </Typography>
                   <Typography variant="body1">
-                  <ContactMailIcon/><strong> Correo:</strong> {machineDetails.sol_Correo}
+                    <ContactMailIcon />
+                    <strong> Correo:</strong> {machineDetails.sol_Correo}
                   </Typography>
                 </div>
 
@@ -199,7 +207,7 @@ function MachineInfo() {
                     href={`https://wa.me/${machineDetails.sol_Telefono_1}`}
                     target="_blank"
                     sx={{
-                      backgroundColor: "#007A32" ,
+                      backgroundColor: "#007A32",
                       color: "#fff",
                       fontSize: { xs: "0.8rem", sm: "1.1rem" },
                       padding: { xs: "8px 16px", sm: "12px 24px" },

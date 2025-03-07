@@ -31,12 +31,11 @@ function CreateRequestForm() {
       .then((data) => {
         setCategories(data);
       })
-      .catch((error) =>
-        console.error("Error al obtener categorías:", error));
+      .catch((error) => console.error("Error al obtener categorías:", error));
   }, []);
 
-  const [termsAccepted, setTermsAccepted] = useState(false); 
-  const [openModal, setOpenModal] = useState(false); 
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [formValues, setFormValues] = useState({
@@ -284,10 +283,7 @@ function CreateRequestForm() {
           setIsSubmitted(true);
         } catch (error) {
           toast.error("Hubo un error al procesar el formulario.");
-        }
-        finally {
-          setLoading(false); 
-        }
+        } finally { setLoading(false); }
       }
     }
   };
@@ -689,7 +685,9 @@ function CreateRequestForm() {
               </MKButton>
             ) : (
               <MKButton
-              startIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Icon>send</Icon>}
+                startIcon={
+                  loading ? <CircularProgress size={24} color="inherit" /> : <Icon>send</Icon>
+                }
                 variant="contained"
                 color="success"
                 onClick={handleFinish_Temp}

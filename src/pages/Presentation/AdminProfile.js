@@ -54,7 +54,7 @@ function AdminProfile() {
 
   // Función para confirmar el rechazo
   const handleConfirmRejection = async () => {
-    console.log(solID, rejectionReason)
+    console.log(solID, rejectionReason);
     if (!solID || !rejectionReason) return; // Validar que todo esté completo
 
     try {
@@ -523,7 +523,7 @@ function AdminProfile() {
                   </MKButton>
                   {/* Botón de Rechazar */}
                   <MKButton
-                    onClick={() => handleOpenRejectModal(selectedRequest.sol_ID)} 
+                    onClick={() => handleOpenRejectModal(selectedRequest.sol_ID)}
                     sx={{
                       padding: "12px 24px",
                       fontSize: "1.1rem",
