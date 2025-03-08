@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, Box, Typography, Button, Icon, Grid } from "@mui/material";
+import AgricultureIcon from "@mui/icons-material/Agriculture";
 import { getMachineDetails } from "apiServices";
 import MKBox from "components/MKBox";
 import { useNavigate } from "react-router-dom";
@@ -39,8 +40,49 @@ function MachineInfo() {
     fetchMachineDetails();
   }, [sol_ID]); // Se ejecuta cuando cambia el sol_ID
 
-  if (!machineDetails) return <Typography>Loading...</Typography>;
-
+  if (!machineDetails)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          backgroundColor: "#f5f5f5",
+        }}
+      >
+        <Box
+          sx={{
+            width: "150px", // Asegura un tamaño grande
+            height: "150px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <AgricultureIcon
+            sx={{
+              fontSize: "150px !important", // Fuerza el tamaño del icono
+              color: "#008F39",
+              animation: "move 1.5s infinite linear",
+            }}
+          />
+        </Box>
+        <Typography variant="h2" sx={{ mt: 2, color: "#008F39" }}>
+          Cargando...
+        </Typography>
+        <style>
+          {`
+            @keyframes move {
+              0% { transform: translateX(-20px); }
+              50% { transform: translateX(20px); }
+              100% { transform: translateX(-20px); }
+            }
+          `}
+        </style>
+      </Box>
+    );
   return (
     <>
       <DefaultNavbar routes={routes} />

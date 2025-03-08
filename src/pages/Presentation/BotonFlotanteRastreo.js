@@ -14,7 +14,8 @@ const FloatingButton = styled(Fab)({
   fontSize: "1.2rem",
   fontWeight: "bold",
   "&:hover": {
-    backgroundColor: "#007A32",
+    backgroundColor: "#ffff",
+    color: "#007A32",
   },
 });
 

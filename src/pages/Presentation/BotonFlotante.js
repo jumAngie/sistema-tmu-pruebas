@@ -26,10 +26,10 @@ function PublicarMaquinaButton() {
   };
 
   return (
-    <Tooltip title="Ingresa el código y revisa el estado de tu solicitud.">
+    <Tooltip title="Registra tu solicitud para postear tu máquina.">
       <FloatingButton onClick={handleClick} variant="extended">
         <ControlPoint sx={{ mr: 1, fontSize: "1.7rem" }} />
-        Registra tu Solicitud
+        Inicia el proceso Aquí!
       </FloatingButton>
     </Tooltip>
   );
