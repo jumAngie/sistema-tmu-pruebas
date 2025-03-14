@@ -9,7 +9,6 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import { Icon } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import MKButton from "components/MKButton";
 
 function CenteredFooter({ company, socials, light }) {
   const { href, name } = company;
