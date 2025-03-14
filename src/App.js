@@ -20,6 +20,7 @@ import MachineInfo from "pages/Presentation/MachineInfo";
 import PublicarMaquina from "pages/Presentation/CrearSolicitudPage";
 import TrackingPage from "pages/Presentation/RastrearSolicitud";
 import MachinesByCategory from "pages/Presentation/MaquinasPorCategoria";
+import SignIn from "layouts/pages/authentication/sign-in";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -57,6 +58,7 @@ export default function App() {
         <Route path="/crear-solicitud-page" element={<PublicarMaquina />} />
         <Route path="/rastrear-solicitud" element={<TrackingPage />} />
         <Route path="/categoria/:cat_ID" element={<MachinesByCategory />} />
+        <Route path="/inicio-sesion" element={<SignIn />} />
       </Routes>
     </ThemeProvider>
   );

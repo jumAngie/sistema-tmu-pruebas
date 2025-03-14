@@ -1,21 +1,19 @@
 import PropTypes from "prop-types";
-
-// @mui material components
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-
-// @mui icons
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
-// Material Kit 2 React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
+import { Icon } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import MKButton from "components/MKButton";
 
 function CenteredFooter({ company, socials, light }) {
   const { href, name } = company;
-
+  const navigate = useNavigate();
   const year = new Date().getFullYear();
 
   const renderSocials = socials.map((social) => (
@@ -64,12 +62,31 @@ function CenteredFooter({ company, socials, light }) {
             </MKTypography>
           </MKTypography>
         </Grid>
+        <Grid item xs={12} lg={8} sx={{ textAlign: "center", mt: 2 }}>
+          <MKTypography
+            variant="body1"
+            onClick={() => navigate("/inicio-sesion")}
+            sx={{
+              display: "inline-flex",
+              alignItems: "center",
+              cursor: "pointer",
+              color: light ? "white" : "#1428A0",
+              fontWeight: "bold",
+              "&:hover": {
+                textDecoration: "underline",
+                color: "#0F1E64",
+              },
+            }}
+          >
+            <Icon sx={{ fontSize: "0.5rem", mr: 1 }}>login</Icon>
+            Iniciar Sesión
+          </MKTypography>
+        </Grid>
       </Grid>
     </MKBox>
   );
 }
 
-// Setting default values for the props of CenteredFooter
 CenteredFooter.defaultProps = {
   company: { href: "", name: "Tu Máquina Usada" },
   links: [],
@@ -87,7 +104,6 @@ CenteredFooter.defaultProps = {
   light: false,
 };
 
-// Typechecking props for the CenteredFooter
 CenteredFooter.propTypes = {
   company: PropTypes.objectOf(PropTypes.string),
   links: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object])),
