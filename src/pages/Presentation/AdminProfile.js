@@ -40,7 +40,7 @@ function AdminProfile() {
       navigate("/pages/authentication/sign-in");
     }
   }, []);
-  
+
   const handleOpenRejectModal = (id) => {
     setSolID(id); // Estableces el ID de la solicitud
     setOpenRejectModal(true); // Abres el modal
