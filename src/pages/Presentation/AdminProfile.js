@@ -35,12 +35,12 @@ function AdminProfile() {
   const [solID, setSolID] = useState(null);
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (!isAuthenticated) {
-      navigate("/pages/authentication/sign-in"); // Ruta a la página de login
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/pages/authentication/sign-in");
     }
   }, []);
-
+  
   const handleOpenRejectModal = (id) => {
     setSolID(id); // Estableces el ID de la solicitud
     setOpenRejectModal(true); // Abres el modal
@@ -111,12 +111,7 @@ function AdminProfile() {
   }, []);
 
   const handleLogout = () => {
-    // Aquí podrías añadir la lógica de cerrar sesión, como limpiar tokens, etc.
-    // Ejemplo:
-    // localStorage.removeItem("token");
-
-    // Redirige a la página de inicio de sesión
-    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("token");
     navigate("/pages/authentication/sign-in");
   };
 

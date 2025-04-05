@@ -33,7 +33,7 @@ function CenteredFooter({ company, socials, light }) {
       <Grid container justifyContent="center" sx={{ textAlign: "center" }}>
         <Grid item xs={10} lg={8}>
           <MKTypography variant="body1" color={light ? "white" : "secondary"}>
-            Aviso: Este sitio un punto de encuentro virtual entre compradores y vendedores. Sin
+            Aviso: Este sitio es un punto de encuentro virtual entre compradores y vendedores. Sin
             embargo, no nos hacemos responsables por las transacciones que se realicen. Por favor
             verifique cuidadosamente antes de realizar cualquier pago.
           </MKTypography>

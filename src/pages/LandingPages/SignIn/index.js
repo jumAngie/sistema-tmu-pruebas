@@ -25,12 +25,10 @@ function SignInBasic() {
       toast.error("Por favor, ingrese su usuario y contraseña.");
       return;
     }
+
     try {
       const data = await loginUsuario(username, password);
-      // Guardar el usuario en localStorage (puedes cambiar esto más adelante a JWT)
-      localStorage.setItem("usuario", JSON.stringify(data.user));
-      // Redirigir al panel de administración
-      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("token", data.token);
       navigate("/admin-profile");
     } catch (error) {
       toast.error("Usuario o contraseña incorrectos.");

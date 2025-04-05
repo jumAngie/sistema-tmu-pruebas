@@ -14,6 +14,7 @@ import Presentation from "layouts/pages/presentation";
 // Material Kit 2 React routes
 import routes from "routes";
 import UserProfile from "pages/Presentation/UserProfile";
+import ProtectedRoute from "pages/Presentation/protectedRoute";
 import AdminProfile from "pages/Presentation/AdminProfile";
 import CreateRequestForm from "pages/Presentation/CrearSolicitudForm";
 import MachineInfo from "pages/Presentation/MachineInfo";
@@ -52,7 +53,14 @@ export default function App() {
         <Route path="/presentation" element={<Presentation />} />
         <Route path="*" element={<Navigate to="/presentation" />} />
         <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/admin-profile" element={<AdminProfile />} />
+        <Route
+          path="/admin-profile"
+          element={
+            <ProtectedRoute>
+              <AdminProfile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/crear-solicitud" element={<CreateRequestForm />} />
         <Route path="/info-maquina/:sol_ID" element={<MachineInfo />} />
         <Route path="/crear-solicitud-page" element={<PublicarMaquina />} />

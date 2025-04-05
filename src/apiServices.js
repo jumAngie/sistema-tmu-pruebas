@@ -168,24 +168,12 @@ export const insertarSolicitud_Temp = async (solicitud) => {
 };
 
 export const loginUsuario = async (email, password) => {
-  try {
-    const response = await fetch(`${API_URL}/api/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+  const response = await axios.post(`${API_URL}/api/login`, {
+    email,
+    password,
+  });
 
-    if (!response.ok) {
-      throw new Error("Credenciales incorrectas o usuario inactivo.");
-    }
-
-    return await response.json(); // Devuelve el usuario si es correcto
-  } catch (error) {
-    console.error("Error en la autenticación:", error);
-    throw error;
-  }
+  return response.data; // ahora solo trae { token: "..." }
 };
 
 export const rechazar_Solicitud = async (motivo) => {
