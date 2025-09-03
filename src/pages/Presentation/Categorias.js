@@ -31,7 +31,7 @@ const CategoriesSection = () => {
   useEffect(() => {
     getCategorias()
       .then((data) => {
-        setCategories(data);
+        setCategories(data.data);
       })
       .catch((error) => console.error("Error al obtener categorías:", error));
   }, []);

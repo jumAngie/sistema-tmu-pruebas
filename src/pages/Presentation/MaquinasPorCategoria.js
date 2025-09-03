@@ -32,7 +32,7 @@ const MachinesByCategory = () => {
     const fetchMachinesByCategory = async () => {
       try {
         const data = await getMaquinasPorCategoria(cat_ID);
-        setMachines(data);
+        setMachines(data.data);
       } catch (error) {
         console.error("Error fetching machines:", error);
       }

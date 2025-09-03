@@ -43,7 +43,7 @@ function Presentation() {
   useEffect(() => {
     getTopSolicitudes()
       .then((data) => {
-        setSolicitudes(data);
+        setSolicitudes(data.data);
       })
       .catch((error) => console.error("Error al obtener solicitudes:", error));
   }, []);

@@ -1,12 +1,13 @@
 // URL base de la API, definida en el .env
 const API_URL = process.env.REACT_APP_API_URL;
+const API_NEW_URL = process.env.REACT_APP_API_NEW_URL;
 import axios from "axios";
 
-// obtener máquinas por categorias
+// obtener máquinas por categorias - CAMBIADO
 export const getMaquinasPorCategoria = async (cat_ID) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/api/Maquinas_Categorias/${cat_ID}`
+      `${API_NEW_URL}/api/Solicitudes/MaquinasXCategoria?cat_ID=${cat_ID}`
     );
     if (!response.ok) {
       throw new Error("Error al obtener la información de la máquina");
@@ -39,10 +40,10 @@ export const aceptarSolicitud = async (sol_ID) => {
     throw error;
   }
 };
-// lista de categorías
+// lista de categorías - CAMBIADO
 export const getCategorias = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/categorias`);
+    const response = await fetch(`${API_NEW_URL}/api/Categorias/Listar`);
     if (!response.ok) {
       throw new Error("Error al obtener categorías");
     }
@@ -53,10 +54,10 @@ export const getCategorias = async () => {
   }
 };
 
-// lista de top solicitudes
+// lista de top solicitudes - CAMBIADO
 export const getTopSolicitudes = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/topsolicitudes`);
+    const response = await fetch(`${API_NEW_URL}/api/Solicitudes/TOP5_Listar`);
     if (!response.ok) {
       throw new Error("Error al obtener las solicitudes");
     }
@@ -197,10 +198,11 @@ export const rechazar_Solicitud = async (motivo) => {
   }
 };
 
+// Enlistar detalles de una máquina ya publicada - CAMBIADO
 export const getMachineDetails = async (sol_ID) => {
   try {
-    const response = await axios.get(`${API_URL}/api/solicitud_detalles?sol_ID=${sol_ID}`); // Usamos GET y pasamos el ID como query parameter
-    return response.data; // Aquí retornamos los datos que el backend nos responde
+    const response = await axios.get(`${API_NEW_URL}/api/Solicitudes/Detalles?sol_ID=${sol_ID}`);
+    return response.data.data; 
   } catch (error) {
     console.error("Error al obtener los detalles de la máquina:", error);
     throw error;

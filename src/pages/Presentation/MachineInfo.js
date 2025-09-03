@@ -31,7 +31,7 @@ function MachineInfo() {
     const fetchMachineDetails = async () => {
       try {
         const data = await getMachineDetails(sol_ID);
-        setMachineDetails(data);
+        setMachineDetails(data[0]);
       } catch (error) {
         console.error("Error al obtener los detalles de la máquina:", error);
       }
