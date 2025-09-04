@@ -155,7 +155,7 @@ export const getRastrearSolicitud = async (codigo) => {
 export const loginUsuario = async (email, password) => {
   const response = await axios.post(`${API_URL}/api/Usuarios/Login`, {
     usua_ID: 0,
-    usua_Nombre: "", 
+    usua_Nombre: "",
     usua_Email: email,
     usua_Password: password,
     usua_UsuarioCreacion: 0,
@@ -165,7 +165,7 @@ export const loginUsuario = async (email, password) => {
     usua_Estado: true
   });
 
-  return response.data; 
+  return response.data;
 };
 
 // Crear una nueva solicitud con comprobante - CAMBIADO pero no probado
@@ -185,12 +185,12 @@ export const insertarSolicitud = async (solicitud) => {
       sol_IMG_2: solicitud.images[1] || null,
       sol_IMG_3: solicitud.images[2] || null,
       sol_IMG_4: solicitud.images[3] || null,
-      sol_Comprobante: solicitud.images[4] || null, 
+      sol_Comprobante: solicitud.images[4] || null,
       sol_NombreCliente: solicitud.client,
       sol_Telefono_1: solicitud.phoneNumber,
       sol_Telefono_2: solicitud.additionalPhoneNumber,
       sol_Correo: solicitud.email,
-      sol_Estado: "P", 
+      sol_Estado: "P",
       sol_Motivo: "",
       sol_FechaVencimiento: new Date().toISOString(),
       cat_Nombre: ""
@@ -209,7 +209,7 @@ export const insertarSolicitud = async (solicitud) => {
       throw new Error("Error al insertar la solicitud");
     }
 
-    return await response.json(); 
+    return await response.json();
   } catch (error) {
     console.error("Error en la llamada a la API:", error);
     throw error;
@@ -233,12 +233,12 @@ export const insertarSolicitud_Temp = async (solicitud) => {
       sol_IMG_2: solicitud.images[1] || null,
       sol_IMG_3: solicitud.images[2] || null,
       sol_IMG_4: solicitud.images[3] || null,
-      sol_Comprobante: "", 
+      sol_Comprobante: "",
       sol_NombreCliente: solicitud.client,
       sol_Telefono_1: solicitud.phoneNumber,
       sol_Telefono_2: solicitud.additionalPhoneNumber,
       sol_Correo: solicitud.email,
-      sol_Estado: "P", 
+      sol_Estado: "P",
       sol_Motivo: "",
       sol_FechaVencimiento: new Date().toISOString(),
       cat_Nombre: ""
@@ -267,7 +267,7 @@ export const insertarSolicitud_Temp = async (solicitud) => {
 export const getMachineDetails = async (sol_ID) => {
   try {
     const response = await axios.get(`${API_URL}/api/Solicitudes/Detalles_VerMas?sol_ID=${sol_ID}`);
-    return response.data.data; 
+    return response.data.data;
   } catch (error) {
     console.error("Error al obtener los detalles de la máquina:", error);
     throw error;

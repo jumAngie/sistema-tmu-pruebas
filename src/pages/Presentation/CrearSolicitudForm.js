@@ -268,7 +268,7 @@ function CreateRequestForm() {
 
           // Llamada al backend usando la nueva función
           const result = await insertarSolicitud_Temp(submissionData);
-          
+
           // Extraer el ID de la solicitud
           const solicitudId = result.data.messageStatus;
 
