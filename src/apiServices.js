@@ -19,7 +19,9 @@ export const getMaquinasPorCategoria = async (cat_ID) => {
 // buscador - CAMBIADO
 export const buscarSolicitudes = async (searchTerm) => {
   try {
-    const response = await axios.post(`${API_URL}/api/Solicitudes/Buscador?sol_Buscador=${searchTerm}`);
+    const response = await axios.post(
+      `${API_URL}/api/Solicitudes/Buscador?sol_Buscador=${searchTerm}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error en la búsqueda de solicitudes:", error);
