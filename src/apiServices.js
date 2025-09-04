@@ -5,9 +5,7 @@ import axios from "axios";
 // obtener máquinas por categorias - CAMBIADO
 export const getMaquinasPorCategoria = async (cat_ID) => {
   try {
-    const response = await fetch(
-      `${API_URL}/api/Solicitudes/MaquinasXCategoria?cat_ID=${cat_ID}`
-    );
+    const response = await fetch(`${API_URL}/api/Solicitudes/MaquinasXCategoria?cat_ID=${cat_ID}`);
     if (!response.ok) {
       throw new Error("Error al obtener la información de la máquina");
     }
@@ -21,9 +19,7 @@ export const getMaquinasPorCategoria = async (cat_ID) => {
 // buscador - CAMBIADO
 export const buscarSolicitudes = async (searchTerm) => {
   try {
-    console.log(searchTerm);
     const response = await axios.post(`${API_URL}/api/Solicitudes/Buscador?sol_Buscador=${searchTerm}`);
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error en la búsqueda de solicitudes:", error);
@@ -45,13 +41,16 @@ export const aceptarSolicitud = async (sol_ID) => {
 // rechazar solicitud - CAMBIADO
 export const rechazar_Solicitud = async (motivo) => {
   try {
-    const response = await fetch(`${API_URL}/api/Solicitudes/Rechazar?sol_ID=${motivo.sol_ID}&sol_Motivo=${motivo.rejection}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(motivo),
-    });
+    const response = await fetch(
+      `${API_URL}/api/Solicitudes/Rechazar?sol_ID=${motivo.sol_ID}&sol_Motivo=${motivo.rejection}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(motivo),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Error al rechazar la solicitud");
@@ -137,9 +136,7 @@ export const getSolicitudesAceptadas = async () => {
 // información de las solicitudes - CAMBIADO
 export const getRastrearSolicitud = async (codigo) => {
   try {
-    const response = await fetch(
-      `${API_URL}/api/Solicitudes/Rastrear?sol_Cod=${codigo}`
-    );
+    const response = await fetch(`${API_URL}/api/Solicitudes/Rastrear?sol_Cod=${codigo}`);
     if (!response.ok) {
       throw new Error("Error al obtener la solicitud");
     }
@@ -161,7 +158,7 @@ export const loginUsuario = async (email, password) => {
     usua_FechaCreacion: new Date().toISOString(),
     usua_UsuarioModificacion: null,
     usua_FechaModificacion: null,
-    usua_Estado: true
+    usua_Estado: true,
   });
 
   return response.data;
@@ -170,7 +167,6 @@ export const loginUsuario = async (email, password) => {
 // Crear una nueva solicitud con comprobante - CAMBIADO pero no probado
 export const insertarSolicitud = async (solicitud) => {
   try {
-
     const payload = {
       sol_ID: 0,
       sol_Cod: "",
@@ -192,10 +188,9 @@ export const insertarSolicitud = async (solicitud) => {
       sol_Estado: "P",
       sol_Motivo: "",
       sol_FechaVencimiento: new Date().toISOString(),
-      cat_Nombre: ""
+      cat_Nombre: "",
     };
 
-    console.log("Payload enviado a la API:", payload);
     const response = await fetch(`${API_URL}/api/Solicitudes/Insertar`, {
       method: "POST",
       headers: {
@@ -215,7 +210,7 @@ export const insertarSolicitud = async (solicitud) => {
   }
 };
 
-// Insertar solicitud sin comprobante - PROBANDO 
+// Insertar solicitud sin comprobante - PROBANDO
 export const insertarSolicitud_Temp = async (solicitud) => {
   try {
     // Transformar el objeto del frontend al formato que espera la API
