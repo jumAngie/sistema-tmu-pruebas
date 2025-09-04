@@ -26,7 +26,6 @@ export const buscarSolicitudes = async (searchTerm) => {
     console.log(response);
     return response.data;
   } catch (error) {
-    console.log(response);
     console.error("Error en la búsqueda de solicitudes:", error);
     throw error;
   }
@@ -241,7 +240,7 @@ export const insertarSolicitud_Temp = async (solicitud) => {
       sol_Estado: "P",
       sol_Motivo: "",
       sol_FechaVencimiento: new Date().toISOString(),
-      cat_Nombre: ""
+      cat_Nombre: "",
     };
 
     const response = await fetch(`${API_URL}/api/Solicitudes/Insertar`, {
