@@ -38,7 +38,7 @@ function MachineInfo() {
     };
 
     fetchMachineDetails();
-  }, [sol_ID]); // Se ejecuta cuando cambia el sol_ID
+  }, [sol_ID]);
 
   if (!machineDetails)
     return (

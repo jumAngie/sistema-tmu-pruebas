@@ -29,7 +29,7 @@ const TrackingPage = () => {
   const handleSearch = () => {
     getRastrearSolicitud(searchCode)
       .then((data) => {
-        setRequest(data);
+        setRequest(data.data[0]);
         setErrorMessage("");
       })
       .catch((error) => {

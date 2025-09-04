@@ -29,7 +29,7 @@ function CreateRequestForm() {
   useEffect(() => {
     getCategorias()
       .then((data) => {
-        setCategories(data);
+        setCategories(data.data);
       })
       .catch((error) => console.error("Error al obtener categorías:", error));
   }, []);
@@ -142,8 +142,6 @@ function CreateRequestForm() {
     const { titular, category, brand, operationHours, description, images, phoneNumber, email } =
       formValues;
 
-    console.log(formValues);
-
     return (
       titular.trim() &&
       category &&
@@ -253,8 +251,6 @@ function CreateRequestForm() {
             uploadedImages.push(imageUrl);
           }
 
-          console.log(formValues);
-
           // Enviar datos con imágenes subidas SIN el comprobante de pago
           const submissionData = {
             titular: formValues.titular,
@@ -270,13 +266,11 @@ function CreateRequestForm() {
             client: formValues.client,
           };
 
-          console.log(submissionData);
-
           // Llamada al backend usando la nueva función
           const result = await insertarSolicitud_Temp(submissionData);
-
+          
           // Extraer el ID de la solicitud
-          const { solicitudId } = result;
+          const solicitudId = result.data.messageStatus;
 
           // Establecer el código de rastreo
           setTrackingCode(solicitudId);

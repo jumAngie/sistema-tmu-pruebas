@@ -27,12 +27,12 @@ const BuscadorSection = () => {
     }
     try {
       const data = await buscarSolicitudes(searchTerm);
-      if (data.length === 0) {
+      if (data.data.length === 0) {
         setError("No se encontraron resultados");
         setResults([]);
       } else {
         setError(""); // Limpia cualquier mensaje de error
-        setResults(data); // Almacena los resultados en el estado
+        setResults(data.data); // Almacena los resultados en el estado
       }
     } catch (error) {
       console.error("Error en la búsqueda:", error);

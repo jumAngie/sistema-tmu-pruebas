@@ -14,7 +14,7 @@ const AdminCategories = () => {
   const fetchCategories = async () => {
     try {
       const data = await getCategorias();
-      const formattedCategories = data.map((cat) => ({
+      const formattedCategories = data.data.map((cat) => ({
         id: cat.cat_ID,
         name: cat.cat_Nombre,
         img: cat.cat_Imagen, // Asegúrate de que `cat_Imagen` sea la URL correcta

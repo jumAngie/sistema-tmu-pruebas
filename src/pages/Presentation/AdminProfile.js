@@ -59,7 +59,7 @@ function AdminProfile() {
 
     try {
       const response = await rechazar_Solicitud({ sol_ID: solID, rejection: rejectionReason });
-      toast.success(response.message);
+      toast.success(response.data.messageStatus);
       setOpenRejectModal(false);
       handleCloseRequestModal();
       await fetchSolicitudes();
@@ -72,8 +72,8 @@ function AdminProfile() {
   const fetchSolicitudes = async () => {
     try {
       const data = await getSolicitudes();
-      if (data && data.length > 0) {
-        setSolicitudes(data);
+      if (data.data && data.data.length > 0) {
+        setSolicitudes(data.data);
       } else {
         setSolicitudes([]);
       }
@@ -89,8 +89,8 @@ function AdminProfile() {
   useEffect(() => {
     getSolicitudesRechazadas()
       .then((data) => {
-        if (data && data.length > 0) {
-          setSolicitudesRechazadas(data);
+        if (data.data && data.data.length > 0) {
+          setSolicitudesRechazadas(data.data);
         } else {
           setSolicitudesRechazadas([]);
         }
@@ -101,8 +101,8 @@ function AdminProfile() {
   useEffect(() => {
     getSolicitudesAceptadas()
       .then((data) => {
-        if (data && data.length > 0) {
-          setSolicitudesAceptadas(data);
+        if (data.data && data.data.length > 0) {
+          setSolicitudesAceptadas(data.data);
         } else {
           setSolicitudesAceptadas([]);
         }
