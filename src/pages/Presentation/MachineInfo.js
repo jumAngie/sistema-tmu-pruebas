@@ -99,7 +99,6 @@ function MachineInfo() {
           placeItems: "center",
         }}
       >
-
         {/* Contenido que va sobre el overlay */}
         <MKBox
           sx={{

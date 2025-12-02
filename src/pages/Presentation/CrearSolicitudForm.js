@@ -31,10 +31,7 @@ function CreateRequestForm() {
       .then((data) => {
         setCategories(data.data);
       })
-      .catch((error) =>
-      console.error(
-        "Error al obtener categorías:", error)
-      );
+      .catch((error) => console.error("Error al obtener categorías:", error));
   }, []);
 
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -97,7 +94,7 @@ function CreateRequestForm() {
     }
   };
 
-  const handleReceiptUpload = (e) => {
+  /* const handleReceiptUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       setFormValues({
@@ -105,7 +102,7 @@ function CreateRequestForm() {
         receipt: { file, url: URL.createObjectURL(file) }, // Actualiza receipt
       });
     }
-  };
+  };*/
 
   const handleNext = () => {
     if (activeTab < 2) setActiveTab(activeTab + 1);
@@ -477,7 +474,7 @@ function CreateRequestForm() {
                   ))}
                 </Grid>
                 {/* Contenedor para el comprobante de pago */}
-            {/* <MKBox mt={4}>
+                {/* <MKBox mt={4}>
                   <MKTypography variant="h6" color="default" mb={2}>
                     Subir Comprobante de Pago (Obligatorio)
                   </MKTypography>

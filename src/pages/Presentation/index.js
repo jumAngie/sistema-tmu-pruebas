@@ -45,10 +45,7 @@ function Presentation() {
       .then((data) => {
         setSolicitudes(data.data);
       })
-      .catch((error) =>
-        console.error(
-          "Error al obtener solicitudes:", error)
-        );
+      .catch((error) => console.error("Error al obtener solicitudes:", error));
   }, []);
 
   const [activeSection, setActiveSection] = useState("home");

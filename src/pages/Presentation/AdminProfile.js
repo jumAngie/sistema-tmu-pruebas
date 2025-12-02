@@ -166,9 +166,13 @@ function AdminProfile() {
   const handleAprobar = async (sol_ID) => {
     try {
       const response = await aceptarSolicitud(sol_ID);
-      toast.success("Solicitud Aceptada");
-      await fetchSolicitudes();
-      handleCloseRequestModal();
+      if (response.code == 200) {
+        toast.success("Solicitud Aceptada");
+        await fetchSolicitudes();
+        handleCloseRequestModal();
+      } else {
+        toast.error("Error, no se puede aprobar");
+      }
     } catch (error) {
       toast.error("Error, no se puede aprobar");
     }
