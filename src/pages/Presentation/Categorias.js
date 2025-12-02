@@ -33,7 +33,9 @@ const CategoriesSection = () => {
       .then((data) => {
         setCategories(data.data);
       })
-      .catch((error) => console.error("Error al obtener categorías:", error));
+      .catch((error) =>
+        console.error("Error al obtener categorías:", error)
+    );
   }, []);
 
   return (

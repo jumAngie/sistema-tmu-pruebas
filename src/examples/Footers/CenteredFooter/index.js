@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
+//import FacebookIcon from "@mui/icons-material/Facebook";
+//import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
@@ -90,14 +90,10 @@ CenteredFooter.defaultProps = {
   company: { href: "", name: "Tu Máquina Usada" },
   links: [],
   socials: [
-    { icon: <FacebookIcon fontSize="small" />, link: "" },
-    {
-      icon: <TwitterIcon fontSize="small" />,
-      link: "",
-    },
     {
       icon: <InstagramIcon fontSize="small" />,
-      link: "",
+      link: "https://www.instagram.com/tumaquinausada.hn/",
+      href: "https://www.instagram.com/tumaquinausada.hn/",
     },
   ],
   light: false,
