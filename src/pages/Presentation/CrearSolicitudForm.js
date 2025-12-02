@@ -18,8 +18,8 @@ import { getCategorias } from "apiServices";
 import { insertarSolicitud_Temp } from "apiServices";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import MKBadge from "components/MKBadge";
-import terminosPDF from "assets/docs/terminosycondiciones.pdf";
+//import MKBadge from "components/MKBadge";
+import terminosPDF from "assets/docs/terminosycondicionesV2.pdf";
 import CircularProgress from "@mui/material/Icon";
 
 function CreateRequestForm() {
@@ -31,7 +31,10 @@ function CreateRequestForm() {
       .then((data) => {
         setCategories(data.data);
       })
-      .catch((error) => console.error("Error al obtener categorías:", error));
+      .catch((error) =>
+      console.error(
+        "Error al obtener categorías:", error)
+      );
   }, []);
 
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -124,7 +127,6 @@ function CreateRequestForm() {
       phoneNumber,
       email,
     } = formValues;
-    console.log(formValues);
     return (
       titular.trim() &&
       category &&
@@ -193,8 +195,6 @@ function CreateRequestForm() {
             uploadedImages.push(imageUrl);
           }
 
-          console.log(formValues);
-
           const receiptUrl = await uploadImageToCloudinary(formValues.receipt.file);
 
           // Enviar datos con imágenes subidas
@@ -212,8 +212,6 @@ function CreateRequestForm() {
             email: formValues.email,
             client: formValues.client,
           };
-
-          console.log(submissionData);
 
           // Llamada al backend
           const result = await insertarSolicitud(submissionData);
@@ -479,7 +477,7 @@ function CreateRequestForm() {
                   ))}
                 </Grid>
                 {/* Contenedor para el comprobante de pago */}
-                <MKBox mt={4}>
+            {/* <MKBox mt={4}>
                   <MKTypography variant="h6" color="default" mb={2}>
                     Subir Comprobante de Pago (Obligatorio)
                   </MKTypography>
@@ -532,7 +530,7 @@ function CreateRequestForm() {
                       </MKButton>
                     </label>
                   </MKBox>
-                </MKBox>
+                </MKBox>*/}
               </MKBox>
             )}
 

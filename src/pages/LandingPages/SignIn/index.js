@@ -27,10 +27,16 @@ function SignInBasic() {
     }
 
     try {
-      const data = await loginUsuario(username, password);
-      localStorage.setItem("token", data.token);
-      navigate("/admin-profile");
+      const response = await loginUsuario(username, password);
+      if (response.code == 200) {
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("usuario", JSON.stringify(response.data));
+        navigate("/admin-profile");
+      } else {
+        toast.error("Usuario o contraseña incorrectos.");
+      }
     } catch (error) {
+      console.error(error);
       toast.error("Usuario o contraseña incorrectos.");
     }
   };
@@ -46,11 +52,7 @@ function SignInBasic() {
         width="100%"
         minHeight="100vh"
         sx={{
-          backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
-            `${linearGradient(
-              rgba(gradients.dark.main, 0.6),
-              rgba(gradients.dark.state, 0.6)
-            )}, url(${bgImage})`,
+          backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -90,8 +92,8 @@ function SignInBasic() {
                     borderRadius="lg"
                     coloredShadow="#1428A0"
                     sx={{
-                      backgroundColor: "#1428A0",
-                      color: "#fff",
+                      backgroundColor: "#76dd70",
+                      color: "#0d440aff",
                       width: "300px",
                     }}
                     mx={2}
@@ -100,7 +102,7 @@ function SignInBasic() {
                     mb={2}
                     textAlign="center"
                   >
-                    <MKTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+                    <MKTypography variant="h4" fontWeight="medium" color="#0d440aff" mt={1}>
                       Iniciar Sesión
                     </MKTypography>
                   </MKBox>

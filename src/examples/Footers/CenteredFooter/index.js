@@ -38,7 +38,7 @@ function CenteredFooter({ company, socials, light }) {
             verifique cuidadosamente antes de realizar cualquier pago.
           </MKTypography>
           <MKTypography variant="body1" lg={8} sx={{ textAlign: "center" }}>
-            Correo de Soporte: soporte-cliente@tumaquinausada.com
+            Correo de Soporte: tumaquinausadahn@gmail.com
           </MKTypography>
         </Grid>
         <Grid item xs={12} lg={8}>

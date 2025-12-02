@@ -56,19 +56,6 @@ const MachinesByCategory = () => {
           placeItems: "center",
         }}
       >
-        {/* Overlay con opacidad */}
-        <MKBox
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(20, 40, 160, 0.5)",
-            zIndex: 1,
-          }}
-        />
-
         {/* Contenido que va sobre el overlay */}
         <MKBox
           sx={{
@@ -84,11 +71,11 @@ const MachinesByCategory = () => {
                 component="img"
                 src={require("assets/images/HEADER-V1.png")}
                 alt="Tu Máquina Usada"
-                width="170%"
+                width="130%"
                 height="auto"
                 sx={{
                   objectFit: "cover",
-                  mt: -7,
+                  mt: -10,
                 }}
               />
             </Grid>

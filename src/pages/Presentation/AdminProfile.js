@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 function AdminProfile() {
   const navigate = useNavigate();
+  const [usuario, setUsuario] = useState(null);
   const [openRequestModal, setOpenRequestModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedTab, setSelectedTab] = useState("users");
@@ -36,8 +37,11 @@ function AdminProfile() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const usuarioGuardado = localStorage.getItem("usuario");
     if (!token) {
       navigate("/pages/authentication/sign-in");
+    } else if (usuarioGuardado) {
+      setUsuario(JSON.parse(usuarioGuardado));
     }
   }, []);
 
@@ -54,7 +58,6 @@ function AdminProfile() {
 
   // Función para confirmar el rechazo
   const handleConfirmRejection = async () => {
-    console.log(solID, rejectionReason);
     if (!solID || !rejectionReason) return; // Validar que todo esté completo
 
     try {
@@ -111,7 +114,7 @@ function AdminProfile() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/pages/authentication/sign-in");
   };
 
@@ -163,7 +166,6 @@ function AdminProfile() {
   const handleAprobar = async (sol_ID) => {
     try {
       const response = await aceptarSolicitud(sol_ID);
-      console.log(response);
       toast.success("Solicitud Aceptada");
       await fetchSolicitudes();
       handleCloseRequestModal();
@@ -192,8 +194,17 @@ function AdminProfile() {
       <MKBox p={3}>
         <Card sx={{ p: 3, mb: 4 }}>
           <MKBox display="flex" alignItems="center" mb={3}>
-            <Avatar src={logoperfil} alt="Administrador" sx={{ width: 80, height: 80, mr: 2 }} />
-            <MKTypography variant="h5">Administrador</MKTypography>
+            <Avatar src={logoperfil} alt="Administrador" sx={{ width: 120, height: 90, mr: 2 }} />
+            <MKBox display="flex" flexDirection="column">
+              <MKTypography variant="h5">
+                {/* Aquí usamos una condicional: Si existe usuario, muestra el nombre, si no, "Administrador" */}
+                {usuario ? `Bienvenido, ${usuario.usua_Nombre}` : "Administrador"}
+              </MKTypography>
+              {/* Opcional: Mostrar el email o rol si lo deseas */}
+              <MKTypography variant="caption" color="text">
+                {usuario?.usua_Email}
+              </MKTypography>
+            </MKBox>
           </MKBox>
 
           <MKBox display="flex" justifyContent="center" mb={3}>

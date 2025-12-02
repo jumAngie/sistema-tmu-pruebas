@@ -29,7 +29,7 @@ function PublicarMaquinaButton() {
     <Tooltip title="Registra tu solicitud para postear tu máquina.">
       <FloatingButton onClick={handleClick} variant="extended">
         <ControlPoint sx={{ mr: 1, fontSize: "1.7rem" }} />
-        Inicia el proceso Aquí!
+        Para vender tu máquina, presiona aquí!
       </FloatingButton>
     </Tooltip>
   );

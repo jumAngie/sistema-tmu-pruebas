@@ -99,18 +99,6 @@ function MachineInfo() {
           placeItems: "center",
         }}
       >
-        {/* Overlay con opacidad */}
-        <MKBox
-          sx={{
-            position: "absolute", // Posiciona el overlay sobre la imagen
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(20, 40, 160, 0.5)", // Azul con opacidad
-            zIndex: 1, // Asegúrate de que el overlay esté detrás del contenido
-          }}
-        />
 
         {/* Contenido que va sobre el overlay */}
         <MKBox
