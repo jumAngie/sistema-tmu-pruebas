@@ -5,7 +5,7 @@ const Useroutes = [
   {
     name: "Contáctanos",
     icon: <Icon>contact_mail</Icon>,
-    route: "mailto:tumaquinausadahn@gmail.com",
+    route: "mailto:info@tumaquinausada.com",
   },
 ];
 
