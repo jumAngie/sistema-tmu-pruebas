@@ -30,9 +30,11 @@ export const buscarSolicitudes = async (searchTerm) => {
 };
 
 // aceptar solicitud - CAMBIADO
-export const aceptarSolicitud = async (sol_ID) => {
+export const aceptarSolicitud = async (sol_ID, usua_Acepta) => {
   try {
-    const response = await axios.post(`${API_URL}/api/Solicitudes/Aceptar?sol_ID=${sol_ID}`);
+    const response = await axios.post(
+      `${API_URL}/api/Solicitudes/Aceptar?sol_ID=${sol_ID}&usua_Acepta=${usua_Acepta}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error al aceptar la solicitud:", error);
@@ -44,7 +46,7 @@ export const aceptarSolicitud = async (sol_ID) => {
 export const rechazar_Solicitud = async (motivo) => {
   try {
     const response = await fetch(
-      `${API_URL}/api/Solicitudes/Rechazar?sol_ID=${motivo.sol_ID}&sol_Motivo=${motivo.rejection}`,
+      `${API_URL}/api/Solicitudes/Rechazar?sol_ID=${motivo.sol_ID}&sol_Motivo=${motivo.rejection}&usua_Rechaza=${motivo.usua_Rechaza}`,
       {
         method: "POST",
         headers: {
@@ -56,6 +58,27 @@ export const rechazar_Solicitud = async (motivo) => {
 
     if (!response.ok) {
       throw new Error("Error al rechazar la solicitud");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error en la llamada a la API:", error);
+    throw error;
+  }
+};
+
+export const eliminar_Solicitud = async (solicitud_vencida) => {
+  try {
+    const response = await fetch(`${API_URL}/api/Solicitudes/SoliVencida`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(solicitud_vencida),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al eliminar la solicitud");
     }
 
     return await response.json();
@@ -291,6 +314,16 @@ export const insertarCategoria = async (categoria) => {
     return response.data;
   } catch (error) {
     console.error("Error al insertar la categoría:", error);
+    throw error;
+  }
+};
+
+export const actiDesactiCategoria = async (categoria) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/Categorias/ActivarDesactivar`, categoria);
+    return response.data;
+  } catch (error) {
+    console.error("Error al activar/desactivar la categoría:", error);
     throw error;
   }
 };

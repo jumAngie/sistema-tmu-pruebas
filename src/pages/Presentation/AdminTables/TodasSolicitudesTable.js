@@ -15,6 +15,8 @@ const RequestsTable = ({ solicitudes, handleOpenRequestModal }) => {
         return { label: "Rechazada", color: "error" };
       case "A":
         return { label: "Aceptada", color: "success" };
+      case "V":
+        return { label: "Vencida", color: "info" };
       default:
         return { label: "Desconocido", color: "default" };
     }
@@ -51,6 +53,7 @@ const RequestsTable = ({ solicitudes, handleOpenRequestModal }) => {
         acepto: solicitud.usua_AceptaN || "-",
         rechazo: solicitud.usua_RechazaN || "-",
         cliente: solicitud.sol_NombreCliente || "-",
+        eliminacion: solicitud.usua_EliminaN || "-",
         solicitudCompleta: solicitud,
       }));
   }, [solicitudes, searchText]);
@@ -95,6 +98,13 @@ const RequestsTable = ({ solicitudes, handleOpenRequestModal }) => {
       },
     },
     {
+      field: "cliente",
+      headerName: "Cliente",
+      flex: 1.7,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
       field: "acepto",
       headerName: "Aceptó",
       flex: 1.2,
@@ -109,9 +119,9 @@ const RequestsTable = ({ solicitudes, handleOpenRequestModal }) => {
       align: "center",
     },
     {
-      field: "cliente",
-      headerName: "Cliente",
-      flex: 1.7,
+      field: "eliminacion",
+      headerName: "Eliminó",
+      flex: 1.2,
       headerAlign: "center",
       align: "center",
     },

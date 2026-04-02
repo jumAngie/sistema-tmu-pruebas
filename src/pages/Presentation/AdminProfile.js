@@ -66,7 +66,12 @@ function AdminProfile() {
     if (!solID || !rejectionReason) return; // Validar que todo esté completo
 
     try {
-      const response = await rechazar_Solicitud({ sol_ID: solID, rejection: rejectionReason });
+      console.log(usuario.usua_ID);
+      const response = await rechazar_Solicitud({
+        sol_ID: solID,
+        rejection: rejectionReason,
+        usua_Rechaza: usuario.usua_ID,
+      });
       toast.success(response.data.messageStatus);
       setOpenRejectModal(false);
       handleCloseRequestModal();
@@ -106,16 +111,22 @@ function AdminProfile() {
       .catch((error) => console.error("Error al obtener las solicitudes:", error));
   }, []);
 
+  const fetchSolicitudesAceptadas = async () => {
+    try {
+      const data = await getSolicitudesAceptadas();
+
+      if (data.data && data.data.length > 0) {
+        setSolicitudesAceptadas(data.data);
+      } else {
+        setSolicitudesAceptadas([]);
+      }
+    } catch (error) {
+      console.error("Error al obtener las solicitudes:", error);
+    }
+  };
+
   useEffect(() => {
-    getSolicitudesAceptadas()
-      .then((data) => {
-        if (data.data && data.data.length > 0) {
-          setSolicitudesAceptadas(data.data);
-        } else {
-          setSolicitudesAceptadas([]);
-        }
-      })
-      .catch((error) => console.error("Error al obtener las solicitudes:", error));
+    fetchSolicitudesAceptadas();
   }, []);
 
   useEffect(() => {
@@ -151,7 +162,8 @@ function AdminProfile() {
 
   const handleAprobar = async (sol_ID) => {
     try {
-      const response = await aceptarSolicitud(sol_ID);
+      const usuarioAcepta = usuario.usua_ID;
+      const response = await aceptarSolicitud(sol_ID, usuarioAcepta);
       if (response.code == 200) {
         toast.success("Solicitud Aceptada");
         await fetchSolicitudes();
@@ -303,7 +315,10 @@ function AdminProfile() {
           )}
 
           {selectedTab === "accepted-requests" && (
-            <SolicitudesAceptadasTable solicitudesAceptadas={solicitudesAceptadas} />
+            <SolicitudesAceptadasTable
+              solicitudesAceptadas={solicitudesAceptadas}
+              fetchSolicitudesAceptadas={fetchSolicitudesAceptadas}
+            />
           )}
 
           {selectedTab === "categories" && <AdminCategories></AdminCategories>}
