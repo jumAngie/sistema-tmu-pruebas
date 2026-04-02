@@ -251,7 +251,7 @@ function Presentation() {
                     sx={{
                       p: 2,
                       boxShadow: "lg",
-                      width: 300,
+                      width: 400,
                       display: "flex",
                       flexDirection: "column",
                       height: "100%",

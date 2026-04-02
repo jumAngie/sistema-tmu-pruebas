@@ -13,7 +13,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
-import { getCategorias } from "apiServices";
+import { getCategoriasSW } from "apiServices";
 //import { insertarSolicitud } from "apiServices";
 import { insertarSolicitud_Temp } from "apiServices";
 import { toast } from "react-toastify";
@@ -27,7 +27,7 @@ function CreateRequestForm() {
 
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    getCategorias()
+    getCategoriasSW()
       .then((data) => {
         setCategories(data.data);
       })

@@ -182,7 +182,8 @@ function MachineInfo() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  width: "100%",
+                  width: 800,
+                  height: "100%",
                 }}
               >
                 <Typography variant="h4" sx={{ mb: 2 }}>
@@ -202,7 +203,12 @@ function MachineInfo() {
                     <CategoryIcon />
                     <strong> Categoría:</strong> {machineDetails.cat_Nombre}
                   </Typography>
-                  <Typography variant="body1" sx={{ mb: 1 }}>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      mb: 1,
+                    }}
+                  >
                     <DescriptionIcon />
                     <strong> Descripción:</strong> {machineDetails.sol_Descripcion}
                   </Typography>
@@ -220,8 +226,9 @@ function MachineInfo() {
               sx={{
                 borderRadius: "12px",
                 boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                width: "100%",
+                width: 600,
                 display: "flex",
+                height: "100%",
               }}
             >
               <CardContent
