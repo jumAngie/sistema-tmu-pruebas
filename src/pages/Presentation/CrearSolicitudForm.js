@@ -147,7 +147,8 @@ function CreateRequestForm() {
       brand.trim() &&
       operationHours.trim() &&
       description.trim() &&
-      images.length === 4 && // Solo validamos las 4 imágenes
+      images[0] !== undefined &&
+      images[0] !== null &&
       phoneNumber.trim() &&
       email.trim()
     );
@@ -235,7 +236,7 @@ function CreateRequestForm() {
       return;
     } else {
       if (!isFormValid_Temp()) {
-        toast.error("Debe llenar todos los campos y subir las 4 imágenes requeridas.");
+        toast.error("Debe llenar todos los campos y subir 1 imagen en el espacio requerido.");
         return;
       } else {
         try {
@@ -377,28 +378,31 @@ function CreateRequestForm() {
                     )}
                   />
                 </FormControl>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Marca"
-                      name="brand"
-                      value={formValues.brand}
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Horas de Operación"
-                      name="operationHours"
-                      value={formValues.operationHours}
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                </Grid>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                    gap: 2,
+                    width: "100%",
+                    mb: 2,
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    label="Marca"
+                    name="brand"
+                    value={formValues.brand}
+                    onChange={handleInputChange}
+                  />
+
+                  <TextField
+                    fullWidth
+                    label="Horas de Operación"
+                    name="operationHours"
+                    value={formValues.operationHours}
+                    onChange={handleInputChange}
+                  />
+                </Box>
                 <TextField
                   fullWidth
                   label="Breve descripción de la máquina"
@@ -424,57 +428,87 @@ function CreateRequestForm() {
 
             {activeTab === 1 && (
               <MKBox>
-                {/* Subida de imágenes */}
                 <MKTypography variant="body2" color="text.secondary" mb={2}>
-                  RECOMENDACIÓN: Suba una foto clara y bien iluminada, tomada desde varios ángulos.
-                  Use un fondo neutro y asegúrese de que la imagen tenga un tamaño mínimo de 800x800
-                  píxeles en formato JPG o PNG, con un peso máximo de 5 MB.
+                  RECOMENDACIÓN: Suba al menos una (1) foto clara y bien iluminada, tomada desde
+                  varios ángulos, use un fondo neutro y asegúrese de que la imagen tenga un tamaño
+                  mínimo de 800x800 píxeles en formato JPG o PNG, con un peso máximo de 5 MB.
                 </MKTypography>
-                <Grid container spacing={2}>
-                  {[...Array(4)].map((_, index) => (
-                    <Grid item xs={12} sm={6} key={index}>
-                      <input
-                        accept="image/*"
-                        type="file"
-                        onChange={(e) => handleImageUpload(e, index)}
-                        style={{ display: "none" }}
-                        id={`image-upload-${index}`}
-                      />
-                      <label htmlFor={`image-upload-${index}`}>
-                        <MKButton
-                          component="span"
-                          variant="outlined"
-                          color="info"
-                          fullWidth
-                          sx={{
-                            height: "250px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                          }}
-                        >
-                          {formValues.images[index] ? (
-                            <img
-                              src={formValues.images[index].url}
-                              alt={`Preview ${index}`}
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "contain",
-                                borderRadius: "4px",
-                              }}
-                            />
-                          ) : (
-                            "Subir imagen"
-                          )}
-                        </MKButton>
-                      </label>
-                    </Grid>
-                  ))}
-                </Grid>
-                {/* Contenedor para el comprobante de pago */}
-                {/* <MKBox mt={4}>
+
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "1fr",
+                      sm: "1fr 1fr",
+                      md: "1fr 1fr 1fr 1fr",
+                    },
+                    gap: 2,
+                    width: "100%",
+                  }}
+                >
+                  {[...Array(4)].map((_, index) => {
+                    const isRequired = index === 0;
+                    const hasImage = formValues.images[index];
+
+                    return (
+                      <Box key={index} sx={{ width: "100%" }}>
+                        <input
+                          accept="image/*"
+                          type="file"
+                          onChange={(e) => handleImageUpload(e, index)}
+                          style={{ display: "none" }}
+                          id={`image-upload-${index}`}
+                        />
+
+                        <label htmlFor={`image-upload-${index}`}>
+                          <MKButton
+                            component="span"
+                            variant="outlined"
+                            color={isRequired && !hasImage ? "error" : "info"}
+                            fullWidth
+                            sx={{
+                              height: 220,
+                              width: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderRadius: 2,
+                              overflow: "hidden",
+                              border:
+                                isRequired && !hasImage ? "2px dashed red" : "1px dashed #ccc",
+                            }}
+                          >
+                            {hasImage ? (
+                              <img
+                                src={formValues.images[index].url}
+                                alt={`Preview ${index}`}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            ) : (
+                              <>
+                                <span>Subir imagen {isRequired && "*"}</span>
+
+                                {isRequired && (
+                                  <span style={{ fontSize: "12px", color: "red", marginTop: 4 }}>
+                                    Obligatorio
+                                  </span>
+                                )}
+                              </>
+                            )}
+                          </MKButton>
+                        </label>
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </MKBox>
+              /* Contenedor para el comprobante de pago */
+              /* <MKBox mt={4}>
                   <MKTypography variant="h6" color="default" mb={2}>
                     Subir Comprobante de Pago (Obligatorio)
                   </MKTypography>
@@ -527,45 +561,48 @@ function CreateRequestForm() {
                       </MKButton>
                     </label>
                   </MKBox>
-                </MKBox>*/}
-              </MKBox>
+                </MKBox>*/
             )}
 
             {activeTab === 2 && (
               <MKBox>
                 {/* Datos de Contacto */}
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12}>
-                    <TextField
-                      fullWidth
-                      label="Nombre del Contacto"
-                      name="client"
-                      value={formValues.client}
-                      onChange={handleInputChange}
-                      sx={{ mb: 1 }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Número telefónico"
-                      name="phoneNumber"
-                      value={formValues.phoneNumber}
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Número telefónico adicional"
-                      name="additionalPhoneNumber"
-                      value={formValues.additionalPhoneNumber}
-                      onChange={handleInputChange}
-                      sx={{ mb: 2 }}
-                    />
-                  </Grid>
-                </Grid>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" },
+                    gap: 2,
+                    width: "100%",
+                    mb: 2,
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    label="Nombre del Contacto"
+                    name="client"
+                    value={formValues.client}
+                    onChange={handleInputChange}
+                    sx={{ mb: 1 }}
+                  />
+
+                  <TextField
+                    fullWidth
+                    label="Número telefónico"
+                    name="phoneNumber"
+                    value={formValues.phoneNumber}
+                    onChange={handleInputChange}
+                    sx={{ mb: 2 }}
+                  />
+
+                  <TextField
+                    fullWidth
+                    label="Número telefónico adicional"
+                    name="additionalPhoneNumber"
+                    value={formValues.additionalPhoneNumber}
+                    onChange={handleInputChange}
+                    sx={{ mb: 2 }}
+                  />
+                </Box>
                 <TextField
                   fullWidth
                   label="Correo Electrónico"

@@ -244,40 +244,95 @@ function Presentation() {
               </Box>
               Lo más reciente....
             </Typography>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} alignItems="stretch">
               {solicitudes.map((solicitud) => (
-                <Grid item xs={12} sm={6} lg={4} key={solicitud.sol_ID}>
-                  <Card sx={{ p: 2, boxShadow: "lg" }}>
+                <Grid item xs={6} sm={4} lg={2} key={solicitud.sol_ID} sx={{ display: "flex" }}>
+                  <Card
+                    sx={{
+                      p: 2,
+                      boxShadow: "lg",
+                      width: 300,
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
+                      borderRadius: 3,
+                    }}
+                  >
                     <Box
-                      component="img"
-                      src={solicitud.sol_IMG_2}
-                      alt={solicitud.sol_Titular}
-                      width="100%"
-                      height="300px"
-                      mb={2}
                       sx={{
-                        objectFit: "cover",
-                        borderRadius: "4px",
+                        width: "100%",
+                        height: 260,
+                        mb: 2,
+                        overflow: "hidden",
+                        borderRadius: "8px",
+                        flexShrink: 0,
+                        backgroundColor: "#f5f5f5",
                       }}
-                    />
-                    <Typography variant="h5" fontWeight="bold" mb={1}>
-                      {solicitud.sol_Titular}
-                    </Typography>
+                    >
+                      <Box
+                        component="img"
+                        src={solicitud.sol_IMG_1}
+                        alt={solicitud.sol_Titular}
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                      />
+                    </Box>
 
-                    <Typography variant="body2" color="text" mb={1}>
-                      <Icon sx={{ fontSize: "inherit", verticalAlign: "middle" }}>
-                        attach_money
-                      </Icon>{" "}
-                      Precio: {solicitud.sol_Precio}
-                    </Typography>
+                    <Box
+                      sx={{
+                        minHeight: 64,
+                        display: "flex",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <Typography
+                        variant="h5"
+                        fontWeight="bold"
+                        mb={1}
+                        sx={{
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {solicitud.sol_Titular}
+                      </Typography>
+                    </Box>
 
-                    <Typography variant="body2" color="text" mb={1}>
-                      <Icon sx={{ fontSize: "inherit", verticalAlign: "middle" }}>access_time</Icon>{" "}
-                      Horas de uso: {solicitud.sol_Horas}
-                    </Typography>
+                    <Box sx={{ minHeight: 60 }}>
+                      <Typography variant="body2" color="text" mb={1}>
+                        <Icon sx={{ fontSize: "inherit", verticalAlign: "middle" }}>
+                          attach_money
+                        </Icon>{" "}
+                        Precio: {solicitud.sol_Precio}
+                      </Typography>
+
+                      <Typography variant="body2" color="text" mb={1}>
+                        <Icon sx={{ fontSize: "inherit", verticalAlign: "middle" }}>
+                          access_time
+                        </Icon>{" "}
+                        Horas de uso: {solicitud.sol_Horas}
+                      </Typography>
+                    </Box>
+
                     <Divider sx={{ my: 2 }} />
-                    <Box display="flex" justifyContent="center" alignItems="center" gap={2} mt={2}>
-                      {/* Botón "Ver más" */}
+
+                    <Box
+                      sx={{
+                        mt: "auto",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: 2,
+                        flexWrap: "wrap",
+                      }}
+                    >
                       <Button
                         variant="contained"
                         color="success"
@@ -286,8 +341,8 @@ function Presentation() {
                         sx={{
                           backgroundColor: "#1428A0",
                           color: "#fff",
-                          fontSize: { xs: "0.9rem", sm: "1.2rem" },
-                          padding: { xs: "8px 16px", sm: "12px 24px" },
+                          fontSize: { xs: "0.9rem", sm: "1.05rem" },
+                          minWidth: 140,
                           "&:hover": {
                             backgroundColor: "#ffff",
                             color: "#1428A0",
@@ -298,18 +353,16 @@ function Presentation() {
                         Ver más
                       </Button>
 
-                      {/* Botón de WhatsApp */}
                       <Button
                         variant="outlined"
                         startIcon={<WhatsAppIcon />}
                         onClick={() =>
                           window.open(`https://wa.me/${solicitud.sol_Telefono_1}`, "_blank")
-                        } // Reemplaza con el número de WhatsApp real
+                        }
                         sx={{
-                          //backgroundColor: "#1428A0",
                           color: "#1428A0",
-                          fontSize: { xs: "0.9rem", sm: "1.2rem" },
-                          padding: { xs: "8px 16px", sm: "12px 24px" },
+                          fontSize: { xs: "0.9rem", sm: "1.05rem" },
+                          minWidth: 140,
                           "&:hover": {
                             backgroundColor: "#1428A0",
                             color: "#ffff",
@@ -317,7 +370,6 @@ function Presentation() {
                           },
                         }}
                       >
-                        {/* Aquí se puede poner el icono de WhatsApp */}
                         Contacto
                       </Button>
                     </Box>
@@ -442,48 +494,74 @@ function Presentation() {
             </Typography>
             <Grid container spacing={4}>
               {/* Tarjeta Misión */}
-              <Grid item xs={12} sm={6}>
-                <Card
-                  sx={{
-                    p: 3,
-                    backgroundColor: "#1428A0",
-                    color: "#fff",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                    minHeight: "210px",
-                    mt: 3,
-                    mb: 1,
-                  }}
-                >
-                  <Typography variant="h2" color="#fff" mb={2}>
-                    Misión
-                  </Typography>
-                  <Typography variant="body1" color="#fff">
-                    Facilitar las gestiones de compra venta de maquinaria y accesorios industriales
-                    a través de un espacio virtual.
-                  </Typography>
-                </Card>
-              </Grid>
-              {/* Tarjeta Visión */}
-              <Grid item xs={12} sm={6}>
-                <Card
-                  sx={{
-                    p: 3,
-                    backgroundColor: "#1428A0",
-                    color: "#fff",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                    minHeight: "210px",
-                    mt: 3,
-                    mb: 1,
-                  }}
-                >
-                  <Typography variant="h2" color="#fff" mb={2}>
-                    Visión
-                  </Typography>
-                  <Typography variant="body1" color="#fff">
-                    Ser el principal punto de encuentro virtual para la compra venta de maquinaria y
-                    accesorios industriales a nivel de la región centroamericana.
-                  </Typography>
-                </Card>
+              <Grid container spacing={4} alignItems="stretch">
+                <Grid item xs={12} sm={6} sx={{ display: "flex" }}>
+                  <Card
+                    sx={{
+                      p: 3,
+                      backgroundColor: "#1428A0",
+                      color: "#fff",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                      mt: 3,
+                      mb: 1,
+                      width: 610,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography variant="h2" color="#fff" mb={2}>
+                      Misión
+                    </Typography>
+
+                    <Typography
+                      variant="body1"
+                      color="#fff"
+                      sx={{
+                        flexGrow: 1,
+                        wordBreak: "break-word",
+                        overflowWrap: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                    >
+                      Facilitar las gestiones de compra venta de maquinaria y accesorios
+                      industriales a través de un espacio virtual.
+                    </Typography>
+                  </Card>
+                </Grid>
+                {/* Tarjeta Visión */}
+                <Grid item xs={12} sm={6} sx={{ display: "flex" }}>
+                  <Card
+                    sx={{
+                      p: 3,
+                      backgroundColor: "#1428A0",
+                      color: "#fff",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                      mt: 3,
+                      mb: 1,
+                      width: 610,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography variant="h2" color="#fff" mb={2}>
+                      Visión
+                    </Typography>
+
+                    <Typography
+                      variant="body1"
+                      color="#fff"
+                      sx={{
+                        flexGrow: 1,
+                        wordBreak: "break-word",
+                        overflowWrap: "break-word",
+                        whiteSpace: "normal",
+                      }}
+                    >
+                      Ser el principal punto de encuentro virtual para la compra venta de maquinaria
+                      y accesorios industriales a nivel de la región centroamericana.
+                    </Typography>
+                  </Card>
+                </Grid>
               </Grid>
             </Grid>
 
@@ -491,7 +569,8 @@ function Presentation() {
             <Typography variant="h2" color="#008F39" mt={4} mb={2}>
               Valores
             </Typography>
-            <Grid container spacing={3}>
+
+            <Grid container spacing={3} alignItems="stretch">
               {[
                 {
                   icon: "emoji_people",
@@ -524,23 +603,52 @@ function Presentation() {
                   description: "Colaborar conjunta y activamente en la gestión del negocio.",
                 },
               ].map((value, index) => (
-                <Grid item xs={12} sm={6} lg={4} key={index}>
+                <Grid item xs={12} sm={6} lg={4} key={index} sx={{ display: "flex" }}>
                   <Card
                     sx={{
                       display: "flex",
                       flexDirection: "column",
-                      justifyContent: "space-between",
+                      width: 400,
                       height: "100%",
                       boxShadow: "lg",
                       textAlign: "center",
+                      borderRadius: 3,
                     }}
                   >
-                    <CardContent sx={{ flex: "1 0 auto" }}>
+                    <CardContent
+                      sx={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                      }}
+                    >
                       <Icon sx={{ fontSize: 45, color: "#008F39", mb: 2 }}>{value.icon}</Icon>
-                      <Typography variant="h6" fontWeight="bold" mb={1}>
+
+                      <Typography
+                        variant="h6"
+                        fontWeight="bold"
+                        mb={1}
+                        sx={{
+                          minHeight: 56,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
                         {value.title}
                       </Typography>
-                      <Typography variant="body2" color="text">
+
+                      <Typography
+                        variant="body2"
+                        color="text"
+                        sx={{
+                          wordBreak: "break-word",
+                          overflowWrap: "break-word",
+                          whiteSpace: "normal",
+                        }}
+                      >
                         {value.description}
                       </Typography>
                     </CardContent>

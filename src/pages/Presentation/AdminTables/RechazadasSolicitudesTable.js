@@ -164,7 +164,7 @@ const SolicitudesRechazadasTable = ({ solicitudesRechazadas }) => {
           pageSizeOptions={[5, 10, 20]}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
           disableRowSelectionOnClick

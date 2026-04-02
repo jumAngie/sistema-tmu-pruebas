@@ -44,109 +44,92 @@ function SignInBasic() {
   return (
     <>
       <DefaultNavbar routes={routes} transparent light />
+
+      {/* Fondo con overlay */}
       <MKBox
-        position="absolute"
-        top={0}
-        left={0}
-        zIndex={1}
-        width="100%"
-        minHeight="100vh"
         sx={{
-          backgroundImage: `url(${bgImage})`,
+          minHeight: "100vh",
+          width: "100%",
+          backgroundImage: `linear-gradient(rgba(56, 74, 180, 0.75), rgba(26, 36, 92, 0.56)), url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
-      />
-      <MKBox px={1} width="100%" height="100vh" mx="auto" position="relative" zIndex={2}>
-        <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
-          <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
-            <MKBox
+      >
+        <Grid container justifyContent="center">
+          <Grid item xs={11} sm={8} md={5} lg={4}>
+            <Card
               sx={{
-                perspective: "1000px",
+                p: 6,
+                borderRadius: 3,
+                boxShadow: "0px 10px 30px rgba(0,0,0,0.3)",
+                backdropFilter: "blur(10px)",
+                backgroundColor: "rgba(255,255,255,0.95)",
               }}
             >
-              <Card
-                sx={{
-                  height: "300px", // Altura fija para mantener la consistencia del diseño
-                  transition: "transform 0.6s",
-                  transformStyle: "preserve-3d",
-                  position: "relative",
-                }}
-              >
-                {/* Cara de Inicio de Sesión */}
-                <MKBox
+              {/* Título */}
+              <MKBox textAlign="center" mb={3}>
+                <MKTypography
+                  variant="h4"
+                  fontWeight="bold"
                   sx={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%", // Asegura que ocupe toda la altura del contenedor
-                    backfaceVisibility: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "20px",
+                    backgroundColor: "#76dd70",
+                    color: "#0d440a",
+                    display: "inline-block",
+                    px: 3,
+                    py: 2,
+                    borderRadius: 2,
                   }}
                 >
-                  <MKBox
-                    borderRadius="lg"
-                    coloredShadow="#1428A0"
-                    sx={{
-                      backgroundColor: "#76dd70",
-                      color: "#0d440aff",
-                      width: "300px",
-                    }}
-                    mx={2}
-                    mt={-8}
-                    p={1}
-                    mb={2}
-                    textAlign="center"
-                  >
-                    <MKTypography variant="h4" fontWeight="medium" color="#0d440aff" mt={1}>
-                      Iniciar Sesión
-                    </MKTypography>
-                  </MKBox>
-                  <MKBox pt={4} pb={3} px={3}>
-                    <MKBox component="form" role="form" onSubmit={handleLogin}>
-                      <MKBox mb={2}>
-                        <MKInput
-                          type="text"
-                          label="Usuario"
-                          fullWidth
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                        />
-                      </MKBox>
-                      <MKBox mb={2}>
-                        <MKInput
-                          type="password"
-                          label="Contraseña"
-                          fullWidth
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                        />
-                      </MKBox>
-                      <MKBox mt={4} mb={1}>
-                        <MKButton
-                          variant="gradient"
-                          sx={{
-                            backgroundColor: "#1428A0",
-                            color: "#fff",
-                            "&:hover": {
-                              backgroundColor: "#007A32",
-                            },
-                          }}
-                          fullWidth
-                          type="submit"
-                        >
-                          Entrar
-                        </MKButton>
-                      </MKBox>
-                    </MKBox>
-                  </MKBox>
+                  Iniciar Sesión
+                </MKTypography>
+              </MKBox>
+
+              {/* Formulario */}
+              <MKBox component="form" onSubmit={handleLogin}>
+                <MKBox mb={2}>
+                  <MKInput
+                    type="text"
+                    label="Usuario"
+                    fullWidth
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
                 </MKBox>
-              </Card>
-            </MKBox>
+
+                <MKBox mb={2}>
+                  <MKInput
+                    type="password"
+                    label="Contraseña"
+                    fullWidth
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </MKBox>
+
+                <MKBox mt={3}>
+                  <MKButton
+                    fullWidth
+                    type="submit"
+                    sx={{
+                      backgroundColor: "#1428A0",
+                      color: "#fff",
+                      py: 1.2,
+                      fontWeight: "bold",
+                      borderRadius: 2,
+                      "&:hover": {
+                        backgroundColor: "#007A32",
+                        color: "#fff",
+                      },
+                    }}
+                  >
+                    ENTRAR
+                  </MKButton>
+                </MKBox>
+              </MKBox>
+            </Card>
           </Grid>
         </Grid>
       </MKBox>

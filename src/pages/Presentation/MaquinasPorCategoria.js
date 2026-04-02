@@ -22,7 +22,6 @@ const MachinesByCategory = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirige al inicio si no viene `cat_Nombre` desde la navegación por categorías
     if (!cat_Nombre) {
       navigate("/");
     }
@@ -106,46 +105,110 @@ const MachinesByCategory = () => {
                     Máquinas en la categoría: <strong> {cat_Nombre} </strong>
                   </Typography>
 
-                  <Grid container spacing={3}>
+                  <Grid container spacing={3} alignItems="stretch">
                     {machines.length > 0 ? (
                       machines.map((machine) => (
-                        <Grid item xs={12} sm={6} md={4} key={machine.sol_ID}>
-                          <Card>
+                        <Grid item xs={12} md={6} key={machine.sol_ID} sx={{ display: "flex" }}>
+                          <Card
+                            sx={{
+                              width: 500,
+                              height: 350,
+                              display: "flex",
+                              flexDirection: "column",
+                              borderRadius: 3,
+                              overflow: "hidden",
+                            }}
+                          >
+                            {/* Imagen */}
                             <Box
-                              component="img"
-                              src={machine.sol_IMG_1}
-                              alt={machine.sol_Marca}
                               sx={{
                                 width: "100%",
-                                height: "150px",
-                                objectFit: "cover",
-                                borderRadius: "4px 4px 0 0",
+                                height: 160,
+                                overflow: "hidden",
+                                backgroundColor: "#f5f5f5",
                               }}
-                            />
-                            <CardContent>
-                              <Typography variant="h6">{machine.sol_Marca}</Typography>
-                              <Typography variant="body1">{machine.sol_Titular}</Typography>
-                              <Typography variant="body2">{machine.sol_Descripcion}</Typography>
-                            </CardContent>
-                            <Button
-                              variant="outlined"
-                              sx={{
-                                color: "#007A32",
-                                borderColor: "#007A32",
-                                "&:hover": {
-                                  backgroundColor: "#e0f2f1",
-                                  borderColor: "#e0f2f1",
-                                },
-                              }}
-                              onClick={() => navigate(`/info-maquina/${machine.sol_ID}`)}
                             >
-                              <VisibilityIcon /> Ver más
-                            </Button>
+                              <Box
+                                component="img"
+                                src={machine.sol_IMG_1}
+                                alt={machine.sol_Marca}
+                                sx={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </Box>
+
+                            {/* Contenido */}
+                            <CardContent
+                              sx={{
+                                flexGrow: 1,
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                textAlign: "center",
+                              }}
+                            >
+                              <Box>
+                                <Typography
+                                  variant="h6"
+                                  sx={{
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 1,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  {machine.sol_Marca}
+                                </Typography>
+
+                                <Typography
+                                  variant="body1"
+                                  sx={{
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  {machine.sol_Titular}
+                                </Typography>
+
+                                <Typography
+                                  variant="body2"
+                                  sx={{
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  {machine.sol_Descripcion}
+                                </Typography>
+                              </Box>
+
+                              {/* Botón */}
+                              <Button
+                                variant="outlined"
+                                sx={{
+                                  mt: 2,
+                                  color: "#007A32",
+                                  borderColor: "#007A32",
+                                  "&:hover": {
+                                    backgroundColor: "#e0f2f1",
+                                    borderColor: "#e0f2f1",
+                                  },
+                                }}
+                                onClick={() => navigate(`/info-maquina/${machine.sol_ID}`)}
+                              >
+                                <VisibilityIcon /> Ver más
+                              </Button>
+                            </CardContent>
                           </Card>
                         </Grid>
                       ))
                     ) : (
-                      // Mostrar mensaje si no hay máquinas
                       <Box sx={{ textAlign: "center", mt: 8, width: "100%" }}>
                         <Box
                           sx={{ transform: "scale(1.5)", display: "inline-flex", color: "#888" }}

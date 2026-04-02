@@ -2,22 +2,26 @@ import React, { useEffect, useState } from "react";
 import { Card, Grid, Typography, Box, Container, Icon } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MKTypography from "components/MKTypography";
-import { getCategorias } from "apiServices";
+import { getCategoriasSW } from "apiServices";
 import { useNavigate } from "react-router-dom";
 
 // Estilo personalizado para la carta de categorías con efecto hover
 const CategoryCard = styled(Card)(({ theme }) => ({
   transition: "transform 0.3s ease, box-shadow 0.3s ease",
   "&:hover": {
-    transform: "translateY(-10px)", // Levantar la carta
-    boxShadow: theme.shadows[10], // Sombra más prominente al hacer hover
+    transform: "translateY(-10px)",
+    boxShadow: theme.shadows[10],
   },
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
+  justifyContent: "space-between",
+  alignItems: "stretch",
   textAlign: "center",
   padding: theme.spacing(2),
-  height: "100%",
+  height: 260,
+  width: 300,
+  boxSizing: "border-box",
+  borderRadius: theme.spacing(1.5),
 }));
 
 const CategoriesSection = () => {
@@ -29,7 +33,7 @@ const CategoriesSection = () => {
   };
 
   useEffect(() => {
-    getCategorias()
+    getCategoriasSW()
       .then((data) => {
         setCategories(data.data);
       })
@@ -58,28 +62,57 @@ const CategoriesSection = () => {
         Categorías
       </MKTypography>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={3} alignItems="stretch">
         {categories.map((category) => (
-          <Grid item xs={12} sm={6} lg={4} key={category.cat_ID}>
-            <CategoryCard
-              onClick={() => handleCategoryClick(category.cat_ID, category.cat_Nombre)}
-              sx={{ cursor: "pointer" }}
-            >
+          <Grid item xs={12} sm={6} lg={4} key={category.cat_ID} sx={{ display: "flex" }}>
+            <CategoryCard onClick={() => handleCategoryClick(category.cat_ID, category.cat_Nombre)}>
               <Box
-                component="img"
-                src={category.cat_Imagen} // Usa la URL de la imagen desde la API
-                alt={category.cat_Nombre} // Usa el nombre de la categoría desde la API
                 sx={{
                   width: "100%",
-                  height: "150px",
-                  objectFit: "cover",
-                  mb: 2,
-                  borderRadius: "1px",
+                  height: 140,
+                  overflow: "hidden",
+                  borderRadius: "6px",
+                  backgroundColor: "#f5f5f5",
+                  flexShrink: 0,
                 }}
-              />
-              <Typography variant="h6" fontWeight="bold">
-                {category.cat_Nombre} {/* Usa el nombre de la categoría */}
-              </Typography>
+              >
+                <Box
+                  component="img"
+                  src={category.cat_Imagen}
+                  alt={category.cat_Nombre}
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  px: 1,
+                  textAlign: "center",
+                  minHeight: 70,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {category.cat_Nombre}
+                </Typography>
+              </Box>
             </CategoryCard>
           </Grid>
         ))}

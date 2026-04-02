@@ -131,104 +131,134 @@ function MachineInfo() {
           {machineDetails.sol_Titular}
         </Typography>
         {/* Fila de imágenes */}
-        <Grid container spacing={2} justifyContent="center" style={{ marginBottom: "20px" }}>
-          <Grid item xs={6} sm={3}>
-            {machineDetails.sol_IMG_1 && (
-              <img
-                src={machineDetails.sol_IMG_1}
-                alt="Imagen 1"
-                style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-              />
-            )}
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            {machineDetails.sol_IMG_2 && (
-              <img
-                src={machineDetails.sol_IMG_2}
-                alt="Imagen 2"
-                style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-              />
-            )}
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            {machineDetails.sol_IMG_3 && (
-              <img
-                src={machineDetails.sol_IMG_3}
-                alt="Imagen 3"
-                style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-              />
-            )}
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            {machineDetails.sol_IMG_4 && (
-              <img
-                src={machineDetails.sol_IMG_4}
-                alt="Imagen 4"
-                style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-              />
-            )}
-          </Grid>
+        <Grid container spacing={2} justifyContent="center" sx={{ mb: 4 }} alignItems="stretch">
+          {[
+            machineDetails.sol_IMG_1,
+            machineDetails.sol_IMG_2,
+            machineDetails.sol_IMG_3,
+            machineDetails.sol_IMG_4,
+          ]
+            .filter(Boolean)
+            .map((img, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index} sx={{ display: "flex" }}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: 260,
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    backgroundColor: "#f5f5f5",
+                    display: "flex",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={img}
+                    alt={`Imagen ${index + 1}`}
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
+                </Box>
+              </Grid>
+            ))}
         </Grid>
 
         {/* Cartas con información de la máquina y contacto */}
-        <Grid container spacing={3}>
-          {/* Carta de Información de la Máquina */}
-          <Grid item xs={12} sm={6}>
-            <Card style={{ borderRadius: "12px", boxShadow: "0px 4px 6px rgba(0,0,0,0.1)" }}>
-              <CardContent>
-                <Typography variant="h4" style={{ marginBottom: "10px" }}>
+        <Grid container spacing={3} alignItems="stretch">
+          <Grid item xs={12} md={6} sx={{ display: "flex" }}>
+            <Card
+              sx={{
+                borderRadius: "12px",
+                boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                width: "100%",
+                display: "flex",
+              }}
+            >
+              <CardContent
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                }}
+              >
+                <Typography variant="h4" sx={{ mb: 2 }}>
                   <PrecisionManufacturingIcon /> Información General
                 </Typography>
-                <Typography variant="body1">
-                  <BookmarksIcon />
-                  <strong> Marca:</strong> {machineDetails.sol_Marca}
-                </Typography>
-                <Typography variant="body1">
-                  <AccessTimeIcon />
-                  <strong> Horas:</strong> {machineDetails.sol_Horas}
-                </Typography>
-                <Typography variant="body1">
-                  <CategoryIcon />
-                  <strong> Categoría:</strong> {machineDetails.cat_Nombre}
-                </Typography>
-                <Typography variant="body1">
-                  <DescriptionIcon />
-                  <strong> Descripción:</strong> {machineDetails.sol_Descripcion}
-                </Typography>
-                <Typography variant="body1">
-                  <PaidIcon />
-                  <strong> Precio:</strong> HNL. {machineDetails.sol_Precio}
-                </Typography>
+
+                <Box sx={{ flexGrow: 1 }}>
+                  <Typography variant="body1" sx={{ mb: 1 }}>
+                    <BookmarksIcon />
+                    <strong> Marca:</strong> {machineDetails.sol_Marca}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 1 }}>
+                    <AccessTimeIcon />
+                    <strong> Horas:</strong> {machineDetails.sol_Horas}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 1 }}>
+                    <CategoryIcon />
+                    <strong> Categoría:</strong> {machineDetails.cat_Nombre}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 1 }}>
+                    <DescriptionIcon />
+                    <strong> Descripción:</strong> {machineDetails.sol_Descripcion}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 1 }}>
+                    <PaidIcon />
+                    <strong> Precio:</strong> HNL. {machineDetails.sol_Precio}
+                  </Typography>
+                </Box>
               </CardContent>
             </Card>
           </Grid>
 
-          {/* Carta de Información de Contacto */}
-          <Grid item xs={12} sm={6}>
-            <Card style={{ borderRadius: "12px", boxShadow: "0px 4px 6px rgba(0,0,0,0.1)" }}>
-              <CardContent>
-                <Typography variant="h4" style={{ marginBottom: "20px" }}>
+          <Grid item xs={12} md={6} sx={{ display: "flex" }}>
+            <Card
+              sx={{
+                borderRadius: "12px",
+                boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                width: "100%",
+                display: "flex",
+              }}
+            >
+              <CardContent
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                }}
+              >
+                <Typography variant="h4" sx={{ mb: 2 }}>
                   <WhatsAppIcon /> Información de Contacto
                 </Typography>
 
-                {/* Mostrar información de contacto */}
-                <div style={{ marginBottom: "20px" }}>
-                  <Typography variant="body1">
+                <Box sx={{ flexGrow: 1 }}>
+                  <Typography variant="body1" sx={{ mb: 1 }}>
                     <PhoneIcon />
                     <strong> Teléfono Principal:</strong> {machineDetails.sol_Telefono_1}
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography variant="body1" sx={{ mb: 1 }}>
                     <PhoneIcon />
                     <strong> Teléfono Adicional:</strong> {machineDetails.sol_Telefono_2}
                   </Typography>
-                  <Typography variant="body1">
+                  <Typography variant="body1" sx={{ mb: 1 }}>
                     <ContactMailIcon />
                     <strong> Correo:</strong> {machineDetails.sol_Correo}
                   </Typography>
-                </div>
+                </Box>
 
-                {/* Botones centrados en la parte inferior */}
-                <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: 2,
+                    flexWrap: "wrap",
+                    mt: 2,
+                  }}
+                >
                   <Button
                     variant="contained"
                     color="success"
@@ -265,7 +295,7 @@ function MachineInfo() {
                   >
                     Enviar Correo
                   </Button>
-                </div>
+                </Box>
               </CardContent>
             </Card>
           </Grid>

@@ -102,6 +102,20 @@ export const getCategorias = async () => {
   }
 };
 
+// lista de categorías para lado públcio
+export const getCategoriasSW = async () => {
+  try {
+    const response = await fetch(`${API_URL}/api/Categorias/ListarSitioWeb`);
+    if (!response.ok) {
+      throw new Error("Error al obtener categorías");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error en la llamada a la API:", error);
+    throw error;
+  }
+};
+
 // lista de top solicitudes - CAMBIADO
 export const getTopSolicitudes = async () => {
   try {

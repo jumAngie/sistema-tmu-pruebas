@@ -2,16 +2,15 @@ import PropTypes from "prop-types";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-//import FacebookIcon from "@mui/icons-material/Facebook";
-//import TwitterIcon from "@mui/icons-material/Twitter";
+import Container from "@mui/material/Container";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-import { Icon } from "@mui/material";
+import { Icon, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 function CenteredFooter({ company, socials, light }) {
-  const { href, name } = company;
+  const { name } = company;
   const navigate = useNavigate();
   const year = new Date().getFullYear();
 
@@ -29,59 +28,86 @@ function CenteredFooter({ company, socials, light }) {
   ));
 
   return (
-    <MKBox component="footer" py={6}>
-      <Grid container justifyContent="center" sx={{ textAlign: "center" }}>
-        <Grid item xs={10} lg={8}>
-          <MKTypography variant="body1" color={light ? "white" : "secondary"}>
-            Aviso: Este sitio es un punto de encuentro virtual entre compradores y vendedores. Sin
-            embargo, no nos hacemos responsables por las transacciones que se realicen. Por favor
-            verifique cuidadosamente antes de realizar cualquier pago.
-          </MKTypography>
-          <MKTypography variant="body1" lg={8} sx={{ textAlign: "center" }}>
-            Correo de Soporte: info@tumaquinausada.com
-          </MKTypography>
-        </Grid>
-        <Grid item xs={12} lg={8}>
-          <Stack display="flex" direction="row" justifyContent="center" spacing={3} mt={1} mb={3}>
-            {renderSocials}
-          </Stack>
-        </Grid>
-        <Grid item xs={12} lg={8} sx={{ textAlign: "center" }}>
-          <MKTypography variant="body2" color={light ? "white" : "secondary"}>
-            Copyright &copy; {year}
+    <MKBox component="footer" py={6} px={{ xs: 2, sm: 3 }}>
+      <Container maxWidth="md">
+        <Grid container justifyContent="center" sx={{ textAlign: "center" }}>
+          <Grid item xs={12}>
             <MKTypography
-              component={Link}
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              variant="body2"
+              variant="body1"
               color={light ? "white" : "secondary"}
+              sx={{
+                mb: 2,
+                wordBreak: "break-word",
+                overflowWrap: "break-word",
+              }}
             >
-              {name}
+              Aviso: Este sitio es un punto de encuentro virtual entre compradores y vendedores, sin
+              embargo, no nos hacemos responsables por las transacciones que se realicen, por favor
+              verifique cuidadosamente antes de realizar cualquier pago.
             </MKTypography>
-          </MKTypography>
+
+            <MKTypography
+              variant="body1"
+              color={light ? "white" : "secondary"}
+              sx={{
+                mb: 2,
+                wordBreak: "break-word",
+                overflowWrap: "break-word",
+              }}
+            >
+              Correo de Soporte: info@tumaquinausada.com
+            </MKTypography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              spacing={3}
+              mt={1}
+              mb={3}
+              flexWrap="wrap"
+            >
+              {renderSocials}
+            </Stack>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+                textAlign: "center",
+              }}
+            >
+              <MKTypography variant="body2" color={light ? "white" : "secondary"}>
+                © {year} {name}
+              </MKTypography>
+
+              <MKTypography
+                variant="body1"
+                onClick={() => navigate("/inicio-sesion")}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  color: light ? "white" : "#1428A0",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+              >
+                <Icon sx={{ fontSize: "0.9rem", mr: 1 }}>login</Icon>
+                Iniciar Sesión
+              </MKTypography>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={12} lg={8} sx={{ textAlign: "center", mt: 2 }}>
-          <MKTypography
-            variant="body1"
-            onClick={() => navigate("/inicio-sesion")}
-            sx={{
-              display: "inline-flex",
-              alignItems: "center",
-              cursor: "pointer",
-              color: light ? "white" : "#1428A0",
-              fontWeight: "bold",
-              "&:hover": {
-                textDecoration: "underline",
-                color: "#0F1E64",
-              },
-            }}
-          >
-            <Icon sx={{ fontSize: "0.5rem", mr: 1 }}>login</Icon>
-            Iniciar Sesión
-          </MKTypography>
-        </Grid>
-      </Grid>
+      </Container>
     </MKBox>
   );
 }
