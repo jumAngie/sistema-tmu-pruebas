@@ -3,18 +3,22 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKButton from "components/MKButton";
 import Card from "@mui/material/Card";
-import Paper from "@mui/material/Paper";
 import Icon from "@mui/material/Icon";
 import Avatar from "@mui/material/Avatar";
-import { AppBar, Toolbar, Typography, Modal, Box, Grid, TextField } from "@mui/material";
+import { AppBar, Toolbar, Typography, Modal, Box, TextField } from "@mui/material";
 import AdminCategories from "pages/Presentation/AdminCategoriasForm";
 import logoperfil from "assets/images/logo-perfil.png";
-import { getSolicitudes } from "apiServices"; //
+import { getSolicitudes } from "apiServices";
 import { getSolicitudesRechazadas } from "apiServices";
 import { getSolicitudesAceptadas } from "apiServices";
+import { getSolicitudesPendientes } from "apiServices";
 import { aceptarSolicitud } from "apiServices";
 import { rechazar_Solicitud } from "apiServices";
 import { toast } from "react-toastify";
+import RequestsTable from "pages/Presentation/AdminTables/TodasSolicitudesTable";
+import SolicitudesAceptadasTable from "pages/Presentation/AdminTables/AceptadasSolicitudesTable";
+import SolicitudesRechazadasTable from "pages/Presentation/AdminTables/RechazadasSolicitudesTable";
+import SolicitudesPendientesTable from "pages/Presentation/AdminTables/PendientesSolicitudesTable";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useNavigate } from "react-router-dom";
@@ -29,6 +33,7 @@ function AdminProfile() {
   const [solicitudes, setSolicitudes] = useState([]);
   const [solicitudesRechazadas, setSolicitudesRechazadas] = useState([]);
   const [solicitudesAceptadas, setSolicitudesAceptadas] = useState([]);
+  const [solicitudesPendientes, setSolicitudesPendientes] = useState([]);
 
   // Estado para el modal y el motivo
   const [openRejectModal, setOpenRejectModal] = useState(false);
@@ -113,6 +118,18 @@ function AdminProfile() {
       .catch((error) => console.error("Error al obtener las solicitudes:", error));
   }, []);
 
+  useEffect(() => {
+    getSolicitudesPendientes()
+      .then((data) => {
+        if (data.data && data.data.length > 0) {
+          setSolicitudesPendientes(data.data);
+        } else {
+          setSolicitudesPendientes([]);
+        }
+      })
+      .catch((error) => console.error("Error al obtener las solicitudes pendientes:", error));
+  }, []);
+
   const handleLogout = () => {
     localStorage.clear();
     navigate("/pages/authentication/sign-in");
@@ -132,37 +149,6 @@ function AdminProfile() {
     setSelectedTab(tab);
   };
 
-  /* const handleCloseModal = () => {
-    setOpenModal(false);
-    setSelectedUser(null);
-  };*/
-
-  const getStatusColor = (estado) => {
-    switch (estado) {
-      case "P":
-        return "gray"; // Pendiente
-      case "R":
-        return "red"; // Rechazado
-      case "A":
-        return "green"; // Aceptado
-      default:
-        return "black";
-    }
-  };
-
-  const formatearFecha = (fecha) => {
-    const opciones = {
-      year: "numeric",
-      month: "long", // Cambia a '2-digit' si prefieres el mes en formato numérico
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZoneName: "short",
-    };
-    return fecha.toLocaleString("es-ES", opciones);
-  };
-
   const handleAprobar = async (sol_ID) => {
     try {
       const response = await aceptarSolicitud(sol_ID);
@@ -177,6 +163,7 @@ function AdminProfile() {
       toast.error("Error, no se puede aprobar");
     }
   };
+
   return (
     <>
       <AppBar position="static" sx={{ backgroundColor: "#1428A0" }}>
@@ -231,9 +218,9 @@ function AdminProfile() {
 
             <MKButton
               variant="contained"
-              startIcon={<Icon>dangerous</Icon>}
-              color={selectedTab === "denied-requests" ? "info" : "default"}
-              onClick={() => handleTabChange("denied-requests")}
+              startIcon={<Icon>alarm</Icon>}
+              color={selectedTab === "pending-requests" ? "info" : "default"}
+              onClick={() => handleTabChange("pending-requests")}
               sx={{
                 mr: 2,
                 backgroundColor: "#1428A0",
@@ -243,7 +230,7 @@ function AdminProfile() {
                 },
               }}
             >
-              Ver las Solicitudes Rechazadas
+              Ver las Solicitudes Pendientes
             </MKButton>
 
             <MKButton
@@ -265,6 +252,23 @@ function AdminProfile() {
 
             <MKButton
               variant="contained"
+              startIcon={<Icon>dangerous</Icon>}
+              color={selectedTab === "denied-requests" ? "info" : "default"}
+              onClick={() => handleTabChange("denied-requests")}
+              sx={{
+                mr: 2,
+                backgroundColor: "#1428A0",
+                color: "#FFFFFF",
+                "&:hover": {
+                  backgroundColor: "#D3D3D3",
+                },
+              }}
+            >
+              Ver las Solicitudes Rechazadas
+            </MKButton>
+
+            <MKButton
+              variant="contained"
               startIcon={<Icon>category</Icon>}
               color={selectedTab === "categories" ? "info" : "default"}
               onClick={() => handleTabChange("categories")}
@@ -281,142 +285,25 @@ function AdminProfile() {
           </MKBox>
 
           {selectedTab === "requests" && (
-            <Box component={Paper} padding={2} elevation={3}>
-              <Typography variant="h2" gutterBottom>
-                Solicitudes Recibidas
-              </Typography>
-              <Grid
-                container
-                spacing={2}
-                style={{ borderBottom: "1px solid #ccc", padding: "10px 0" }}
-              >
-                <Grid item xs={2} style={{ textAlign: "center" }}>
-                  <strong>Código</strong>
-                </Grid>
-                <Grid item xs={3} style={{ textAlign: "center" }}>
-                  <strong>Título</strong>
-                </Grid>
-                <Grid item xs={2} style={{ textAlign: "center" }}>
-                  <strong>Estado</strong>
-                </Grid>
-                <Grid item xs={3} style={{ textAlign: "center" }}>
-                  <strong>Cliente</strong>
-                </Grid>
-                <Grid item xs={2} style={{ textAlign: "center" }}>
-                  <strong>Acciones</strong>
-                </Grid>
-              </Grid>
-              {solicitudes.map((solicitud) => (
-                <Grid container spacing={2} key={solicitud.sol_Id} style={{ padding: "10px 0" }}>
-                  <Grid item xs={2} style={{ textAlign: "center" }}>
-                    {solicitud.sol_ID}
-                  </Grid>
-                  <Grid item xs={3} style={{ textAlign: "center" }}>
-                    {solicitud.sol_Titular}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    style={{ textAlign: "center" }}
-                    sx={{ color: getStatusColor(solicitud.sol_Estado) }}
-                  >
-                    {solicitud.sol_Estado === "P"
-                      ? "Pendiente"
-                      : solicitud.sol_Estado === "R"
-                      ? "Rechazada"
-                      : "Aceptada"}
-                  </Grid>
-                  <Grid item xs={3} style={{ textAlign: "center" }}>
-                    {solicitud.sol_NombreCliente}
-                  </Grid>
-                  <Grid item xs={2} style={{ textAlign: "center" }}>
-                    <MKButton
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => handleOpenRequestModal(solicitud)} // Pasar solicitud actual a la función
-                    >
-                      Ver Detalles
-                    </MKButton>
-                  </Grid>
-                </Grid>
-              ))}
-            </Box>
+            <RequestsTable
+              solicitudes={solicitudes}
+              handleOpenRequestModal={handleOpenRequestModal}
+            />
+          )}
+
+          {selectedTab === "pending-requests" && (
+            <SolicitudesPendientesTable
+              solicitudesPendientes={solicitudesPendientes}
+              handleOpenRequestModal={handleOpenRequestModal}
+            />
           )}
 
           {selectedTab === "denied-requests" && (
-            <Box component={Paper} padding={2} elevation={3}>
-              <Typography variant="h2" gutterBottom>
-                Solicitudes Rechazadas
-              </Typography>
-              <Grid
-                container
-                spacing={2}
-                style={{ borderBottom: "1px solid #ccc", padding: "10px 0" }}
-              >
-                <Grid item xs={2} style={{ textAlign: "center" }}>
-                  <strong>Código</strong>
-                </Grid>
-                <Grid item xs={5} style={{ textAlign: "center" }}>
-                  <strong>Motivo</strong>
-                </Grid>
-                <Grid item xs={4} style={{ textAlign: "center" }}>
-                  <strong>Estado</strong>
-                </Grid>
-              </Grid>
-              {solicitudesRechazadas.map((solicitud) => (
-                <Grid container spacing={2} key={solicitud.sol_Cod} style={{ padding: "10px 0" }}>
-                  <Grid item xs={2} style={{ textAlign: "center" }}>
-                    {solicitud.sol_Cod}
-                  </Grid>
-                  <Grid item xs={5} style={{ textAlign: "center" }}>
-                    {solicitud.sol_Motivo}
-                  </Grid>
-                  <Grid item xs={4} style={{ textAlign: "center" }}>
-                    {solicitud.sol_Estado === "P"
-                      ? "Pendiente"
-                      : solicitud.sol_Estado === "R"
-                      ? "Rechazada"
-                      : "Aceptada"}
-                  </Grid>
-                </Grid>
-              ))}
-            </Box>
+            <SolicitudesRechazadasTable solicitudesRechazadas={solicitudesRechazadas} />
           )}
 
           {selectedTab === "accepted-requests" && (
-            <Box component={Paper} padding={2} elevation={3}>
-              <Typography variant="h2" gutterBottom>
-                Solicitudes Aceptadas
-              </Typography>
-              <Grid
-                container
-                spacing={2}
-                style={{ borderBottom: "1px solid #ccc", padding: "10px 0" }}
-              >
-                <Grid item xs={2} style={{ textAlign: "center" }}>
-                  <strong>Código</strong>
-                </Grid>
-                <Grid item xs={3} style={{ textAlign: "center" }}>
-                  <strong>Titular</strong>
-                </Grid>
-                <Grid item xs={3} style={{ textAlign: "center" }}>
-                  <strong>Fecha Vencimiento</strong>
-                </Grid>
-              </Grid>
-              {solicitudesAceptadas.map((solicitud) => (
-                <Grid container spacing={2} key={solicitud.sol_Cod} style={{ padding: "10px 0" }}>
-                  <Grid item xs={2} style={{ textAlign: "center" }}>
-                    {solicitud.sol_Cod}
-                  </Grid>
-                  <Grid item xs={3} style={{ textAlign: "center" }}>
-                    {solicitud.sol_Titular}
-                  </Grid>
-                  <Grid item xs={3} style={{ textAlign: "center" }}>
-                    {formatearFecha(solicitud.sol_FechaVencimiento)}
-                  </Grid>
-                </Grid>
-              ))}
-            </Box>
+            <SolicitudesAceptadasTable solicitudesAceptadas={solicitudesAceptadas} />
           )}
 
           {selectedTab === "categories" && <AdminCategories></AdminCategories>}

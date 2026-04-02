@@ -135,6 +135,20 @@ export const getSolicitudesAceptadas = async () => {
   }
 };
 
+// listado de las solicitudes pendientes
+export const getSolicitudesPendientes = async () => {
+  try {
+    const response = await fetch(`${API_URL}/api/Solicitudes/Listar_Solicitudes_P`);
+    if (!response.ok) {
+      throw new Error("Error al obtener las solicitudes pendientes");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error en la llamada a la API:", error);
+    throw error;
+  }
+};
+
 // información de las solicitudes - CAMBIADO
 export const getRastrearSolicitud = async (codigo) => {
   try {
