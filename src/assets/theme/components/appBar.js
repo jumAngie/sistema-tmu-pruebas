@@ -15,7 +15,7 @@ Coded by www.creative-tim.com
 
 export default {
   defaultProps: {
-    color: "transparent",
+    color: "rgba(0,0,0,0)",
   },
 
   styleOverrides: {

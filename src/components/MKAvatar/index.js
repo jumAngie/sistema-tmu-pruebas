@@ -27,7 +27,7 @@ const MKAvatar = forwardRef(({ bgColor, size, shadow, ...rest }, ref) => (
 
 // Setting default values for the props of MKAvatar
 MKAvatar.defaultProps = {
-  bgColor: "transparent",
+  bgColor: "rgba(0,0,0,0)",
   size: "md",
   shadow: "none",
 };
@@ -35,7 +35,7 @@ MKAvatar.defaultProps = {
 // Typechecking props for the MKAvatar
 MKAvatar.propTypes = {
   bgColor: PropTypes.oneOf([
-    "transparent",
+    "rgba(0,0,0,0)",
     "primary",
     "secondary",
     "info",

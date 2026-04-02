@@ -100,10 +100,10 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
 
   return (
     <MKBox
-      variant={color === "transparent" ? "contained" : "gradient"}
+      variant={color === "rgba(0,0,0,0)" ? "contained" : "gradient"}
       bgColor={color}
       borderRadius="xl"
-      shadow={color === "transparent" ? "none" : "md"}
+      shadow={color === "rgba(0,0,0,0)" ? "none" : "md"}
       p={3}
     >
       {image && (
@@ -121,7 +121,7 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
           display="block"
           variant={image ? "button" : "h6"}
           fontWeight="bold"
-          color={color === "transparent" || color === "light" ? "dark" : "white"}
+          color={color === "rgba(0,0,0,0)" || color === "light" ? "dark" : "white"}
           mb={0.5}
         >
           {name}
@@ -130,7 +130,7 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
           variant={image ? "caption" : "button"}
           fontWeight="regular"
           lineHeight={1}
-          color={color === "transparent" || color === "light" ? "text" : "white"}
+          color={color === "rgba(0,0,0,0)" || color === "light" ? "text" : "white"}
           sx={{ display: "flex", alignItems: "center" }}
         >
           <Icon>schedule</Icon>&nbsp;
@@ -139,14 +139,14 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
       </MKBox>
       <MKTypography
         variant="body2"
-        color={color === "transparent" || color === "light" ? "text" : "white"}
+        color={color === "rgba(0,0,0,0)" || color === "light" ? "text" : "white"}
         my={4}
       >
         &quot;{review}&quot;
       </MKTypography>
       <MKTypography
         variant="h4"
-        color={color === "transparent" || color === "light" ? "text" : "white"}
+        color={color === "rgba(0,0,0,0)" || color === "light" ? "text" : "white"}
         sx={{
           display: "flex",
           alignItems: "center",
@@ -165,14 +165,14 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
 
 // Setting default values for the props of DefaultReviewCard
 DefaultReviewCard.defaultProps = {
-  color: "transparent",
+  color: "rgba(0,0,0,0)",
   image: "",
 };
 
 // Typechecking props for the DefaultReviewCard
 DefaultReviewCard.propTypes = {
   color: PropTypes.oneOf([
-    "transparent",
+    "rgba(0,0,0,0)",
     "primary",
     "secondary",
     "info",

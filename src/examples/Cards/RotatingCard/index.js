@@ -34,7 +34,7 @@ function RotatingCard({ children }) {
     <MKBox sx={{ perspective: "50rem" }} onMouseEnter={rotate180} onMouseLeave={rotate0}>
       <Card
         sx={{
-          backgroundColor: "transparent",
+          backgroundColor: "rgba(0,0,0,0)",
           boxShadow: "none",
           position: "relative",
           transform: rotate ? "rotateY(180deg)" : "rotateY(0)",
